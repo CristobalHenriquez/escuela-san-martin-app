@@ -1,0 +1,50 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kiosco_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      APP_ENV: local
+      APP_TIMEZONE: America/Argentina/Buenos_Aires
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: kiosco
+      DB_USER: kiosco
+      DB_PASS: kiosco
+      DB_TIMEZONE: -03:00
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    container_name: kiosco_mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kiosco
+      MYSQL_USER: kiosco
+      MYSQL_PASSWORD: kiosco
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data_v2:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mysql_data_v2:

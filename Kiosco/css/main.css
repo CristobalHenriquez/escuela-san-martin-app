@@ -1,0 +1,404 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.main-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(45deg, #2c3e50, #34495e);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.producto-boton {
+    margin: 5px 0;
+    text-align: center;
+    width: auto !important;
+    display: block !important;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.cantidad-rapida-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cantidad-rapida-label {
+    font-weight: 700;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.cantidad-por-toque-input {
+    width: 110px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    border-width: 2px;
+}
+
+.producto-boton button {
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.producto-boton button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.producto-boton button:active {
+    transform: translateY(0);
+}
+
+.producto-boton .precio {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.producto-boton .stock {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.status {
+    padding: 15px;
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.total-section {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.total {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.productos-lista {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #f8f9fa !important;
+    padding: 16px 10px !important;
+    border-radius: 12px !important;
+}
+
+.producto-item {
+    color: #222 !important;
+    background: #fff !important;
+    border: 1px solid #eee;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+}
+
+.btn-corregir {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 5px;
+}
+
+.btn-finalizar {
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.btn-turno {
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 12px;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.stock-bajo {
+    background: linear-gradient(45deg, #e74c3c, #c0392b) !important;
+}
+
+.stock-medio {
+    background: linear-gradient(45deg, #f39c12, #e67e22) !important;
+}
+
+/* Ajuste visual para el select de método de pago */
+.form-select {
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 10px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+.form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.15);
+}
+
+.metodo-pago-botones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.btn-metodo-pago {
+    border: 2px solid #cbd5e1;
+    background: #fff;
+    color: #1f2937;
+    border-radius: 10px;
+    padding: 11px 10px;
+    font-weight: 700;
+    min-height: 46px;
+}
+
+.btn-metodo-pago.active {
+    background: #0f4c75;
+    border-color: #0f4c75;
+    color: #fff;
+}
+
+.btn-finalizar:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: grayscale(0.1);
+}
+
+.cierre-pasos {
+    border: 1px solid #dbe7f3;
+    background: #f8fbff;
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: #334155;
+    font-size: 0.9rem;
+    display: grid;
+    gap: 4px;
+}
+
+.cuenta-transferencia-botones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.btn-cuenta-transferencia {
+    border: 2px solid #cbd5e1;
+    background: #fff;
+    color: #1f2937;
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-weight: 700;
+    min-height: 44px;
+    text-align: center;
+}
+
+.btn-cuenta-transferencia.active {
+    background: #0ea5a4;
+    border-color: #0ea5a4;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .producto-boton button {
+        padding: 12px 8px;
+        font-size: 0.8rem;
+    }
+
+    .total {
+        font-size: 1.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .producto-boton {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .form-select {
+        font-size: 1rem;
+        padding: 8px 10px;
+    }
+
+    .cantidad-por-toque-input {
+        width: 96px;
+    }
+
+    .metodo-pago-botones {
+        grid-template-columns: 1fr;
+    }
+
+    .cuenta-transferencia-botones {
+        grid-template-columns: 1fr;
+    }
+}
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.ventas-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-bottom: 0.7rem;
+}
+
+.ventas-tip {
+    color: #45556c;
+    font-size: 0.92rem;
+}
+
+.badge-metodo {
+    font-size: 0.75rem;
+    letter-spacing: 0.01em;
+    padding: 0.4rem 0.55rem;
+}
+
+.badge-cuenta {
+    font-size: 0.72rem;
+    border: 1px solid #d7dde8;
+}
+
+.btn-editar-venta {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.ventas-mobile-list {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.venta-card {
+    background: #ffffff;
+    border: 1px solid #dce4f0;
+    border-radius: 14px;
+    padding: 0.75rem;
+    box-shadow: 0 4px 14px rgba(30, 64, 175, 0.08);
+}
+
+.venta-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.venta-title {
+    font-size: 0.97rem;
+    line-height: 1.25;
+    color: #1f2937;
+}
+
+.venta-importe {
+    color: #0f4c75;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.venta-meta {
+    margin-top: 0.45rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    font-size: 0.82rem;
+    color: #516176;
+}
+
+.venta-detalle {
+    margin-top: 0.45rem;
+    font-size: 0.83rem;
+    color: #27364a;
+    line-height: 1.35;
+}
+
+.venta-badges {
+    margin-top: 0.55rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.venta-resumen-modal {
+    border: 1px solid #dce4f0;
+    border-radius: 12px;
+    padding: 0.65rem 0.75rem;
+    background: #f8fbff;
+    color: #1f2937;
+}
+
+@media (max-width: 767.98px) {
+    .ventas-tip {
+        font-size: 0.86rem;
+    }
+
+    .btn-editar-venta {
+        min-height: 40px;
+    }
+}

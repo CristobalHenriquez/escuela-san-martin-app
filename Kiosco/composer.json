@@ -1,0 +1,17 @@
+{
+    "name": "crist/kiosco-escuela",
+    "description": "Sistema POS para kiosco escolar",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cristobal Henriquez",
+            "email": "cristobalhb@live.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "phpoffice/phpspreadsheet": "^4.4",
+        "mpdf/mpdf": "^8.2"
+    }
+}

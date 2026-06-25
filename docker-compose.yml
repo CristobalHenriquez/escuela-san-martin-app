@@ -1,0 +1,76 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: escuela_app
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      APP_ENV: local
+      APP_TIMEZONE: America/Argentina/Buenos_Aires
+      ESCUELA_DB_HOST: mysql
+      ESCUELA_DB_PORT: 3306
+      ESCUELA_DB_NAME: escuela_san_martin
+      ESCUELA_DB_USER: escuela
+      ESCUELA_DB_PASS: escuela
+      ESCUELA_SITE_URL: http://localhost:8081
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: kiosco
+      DB_USER: kiosco
+      DB_PASS: kiosco
+      DB_TIMEZONE: -03:00
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    container_name: escuela_mysql
+    restart: unless-stopped
+    ports:
+      - "3308:3306"
+    environment:
+      TZ: America/Argentina/Buenos_Aires
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: escuela_san_martin
+      MYSQL_USER: escuela
+      MYSQL_PASSWORD: escuela
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init/01-create-extra-databases.sql:/docker-entrypoint-initdb.d/01-create-extra-databases.sql:ro
+      - ./u978865485_web_escuela.sql:/docker-entrypoint-initdb.d/10-escuela.sql:ro
+      - ./docker/mysql/init/20-import-kiosco.sql:/docker-entrypoint-initdb.d/20-import-kiosco.sql:ro
+      - ./u978865485_kiosco2.sql:/docker-entrypoint-initdb.d/21-kiosco.sql:ro
+      - ./docker/mysql/init/30-local-credentials.sql:/docker-entrypoint-initdb.d/30-local-credentials.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  phpmyadmin:
+    image: phpmyadmin:5.2-apache
+    container_name: escuela_phpmyadmin
+    profiles:
+      - tools
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

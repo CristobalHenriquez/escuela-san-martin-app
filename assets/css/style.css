@@ -1,0 +1,809 @@
+/* Estilos públicos - EESO 225 "La San Martín" */
+
+:root {
+    --color-violeta: #6A1B9A;
+    --color-gris: #616161;
+    --color-blanco: #ffffff;
+    --accent: #8E24AA;
+}
+
+/* Utilities */
+.text-purple {
+    color: var(--color-violeta) !important;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f8f9fb;
+    color: #222;
+}
+
+/* Espaciado vertical consistente entre secciones del sitio público */
+main section {
+    padding-top: clamp(2rem, 3.5vw, 3.5rem);
+    padding-bottom: clamp(2rem, 3.5vw, 3.5rem);
+}
+
+/* Separación entre encabezado de sección y su contenido */
+.section-header {
+    margin-bottom: 1.25rem;
+}
+
+/* Hero simple */
+#hero.hero {
+    padding: 60px 0;
+    background: linear-gradient(180deg, rgba(106, 27, 154, 0.06), rgba(255, 255, 255, 0));
+}
+
+/* Estilos para la descripción institucional en el hero */
+.hero-description .lead {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-violeta);
+}
+
+.institutional-info {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.08);
+    border-left: 4px solid var(--color-violeta);
+    margin: 1.5rem 0;
+}
+
+.institutional-info .info-item {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.institutional-info .info-item i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.institutional-info .info-item span {
+    color: #444;
+    text-align: justify;
+}
+
+.call-to-action {
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Estilos responsivos para hero */
+@media (max-width: 767.98px) {
+    .institutional-info {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .institutional-info .info-item {
+        font-size: 0.95rem;
+    }
+
+    .hero-description .lead {
+        font-size: 1.15rem;
+    }
+
+    .call-to-action {
+        font-size: 1rem;
+    }
+}
+
+.btn-get-started {
+    background: var(--color-violeta);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.btn-get-started:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.3);
+}
+
+.btn-contacto {
+    background: transparent;
+    color: var(--color-violeta);
+    padding: 12px 24px;
+    border: 2px solid var(--color-violeta);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-contacto:hover {
+    background: var(--color-violeta);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.3);
+}
+
+/* Cards generales */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06)
+}
+
+/* Noticias */
+.card .card-title {
+    color: var(--color-violeta);
+    font-family: 'Montserrat', sans-serif
+}
+
+/* Botones institucionales globales */
+.btn-violeta {
+    background: var(--color-violeta);
+    color: #fff;
+    border: none;
+}
+
+.btn-violeta:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-outline-violeta {
+    color: var(--color-violeta);
+    border: 2px solid var(--color-violeta);
+    background: transparent;
+}
+
+.btn-outline-violeta:hover {
+    background: var(--color-violeta);
+    color: #fff;
+}
+
+/* Noticias en Home */
+#recent-posts .news-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px 12px 16px;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+    position: relative;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#recent-posts .news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(33, 37, 41, 0.12);
+}
+
+#recent-posts .news-thumb {
+    width: 100%;
+    height: 300px;
+    /* privilegiar alto para mejor lectura vertical */
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    background: #f4f5f7;
+}
+
+/* Cuando hay una sola noticia, hacemos la imagen un poco más alta */
+#recent-posts .news-card.news-card-lg .news-thumb {
+    height: 380px;
+}
+
+@media (max-width: 991.98px) {
+    #recent-posts .news-thumb {
+        height: 260px;
+    }
+
+    #recent-posts .news-card.news-card-lg .news-thumb {
+        height: 300px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    #recent-posts .news-thumb {
+        height: 220px;
+    }
+
+    #recent-posts .news-card.news-card-lg .news-thumb {
+        height: 240px;
+    }
+}
+
+#recent-posts .news-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin: 6px 0 8px;
+}
+
+#recent-posts .news-title a {
+    color: #222;
+    text-decoration: none;
+}
+
+#recent-posts .news-title a:hover {
+    color: var(--color-violeta);
+}
+
+#recent-posts .badge {
+    border-radius: 20px;
+    padding: .35rem .6rem;
+}
+
+#recent-posts .news-excerpt {
+    font-size: .95rem;
+}
+
+/* Listado de Noticias */
+#news-list .card-news {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, .06);
+    transition: transform .2s, box-shadow .2s;
+}
+
+#news-list .card-news:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(33, 37, 41, .12);
+}
+
+#news-list .news-list-thumb {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+@media (max-width: 767.98px) {
+    #news-list .news-list-thumb {
+        height: 220px;
+    }
+}
+
+#news-list .news-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+#news-list .news-title a {
+    color: #222;
+    text-decoration: none;
+}
+
+#news-list .news-title a:hover {
+    color: var(--color-violeta);
+}
+
+/* Footer público */
+footer {
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+    #hero.hero .col-lg-5 img {
+        max-height: 220px
+    }
+
+    .navbar .navbar-brand img {
+        height: 40px
+    }
+}
+
+/* Small utilities */
+.muted-small {
+    color: #6c757d;
+    font-size: 0.9rem
+}
+
+/* Contacto: redes sociales */
+#contact .social-links {
+    gap: .5rem;
+}
+
+#contact .social-links a {
+    color: #6c757d !important;
+    /* gris neutro */
+    font-size: 1.6rem;
+    margin: 0 .25rem;
+}
+
+#contact .social-links a:hover {
+    color: #495057 !important;
+    /* un poco más oscuro al hover */
+}
+
+/* Formulario de Contacto */
+#contact .contact-form .form-label {
+    font-weight: 600;
+    color: var(--color-gris);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+#contact .contact-form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+}
+
+#contact .contact-form .form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+#contact .contact-form .form-control:focus {
+    border-color: var(--color-violeta);
+    box-shadow: 0 0 0 0.2rem rgba(106, 27, 154, 0.15);
+}
+
+#contact .contact-form textarea.form-control {
+    resize: vertical;
+    min-height: 140px;
+}
+
+#contact .contact-form .btn-violeta {
+    transition: all 0.3s ease;
+}
+
+#contact .contact-form .btn-violeta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(106, 27, 154, 0.25);
+}
+
+/* Info de contacto */
+#contact .info-container {
+    background: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+    height: 100%;
+}
+
+#contact .info-item {
+    margin-bottom: 1.75rem;
+}
+
+#contact .info-item:last-child {
+    margin-bottom: 0;
+}
+
+#contact .info-item i {
+    font-size: 1.75rem;
+    color: var(--color-violeta);
+}
+
+#contact .info-item h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-violeta);
+    margin-bottom: 0.35rem;
+}
+
+#contact .info-item p {
+    font-size: 0.95rem;
+    color: var(--color-gris);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Mapa de contacto */
+#contact .map-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+}
+
+#contact .map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 35%;
+    /* Ratio 16:9 para banner (ajustable) */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#contact .google-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive del mapa */
+@media (max-width: 768px) {
+    #contact .map-wrapper {
+        padding-bottom: 50%;
+        /* Más alto en móviles */
+    }
+
+    #contact .map-container {
+        padding: 1.5rem;
+    }
+}
+
+/* Galería, Noticias, Personal, Logros y Contacto */
+.galeria-description .info-box,
+.noticias-description .info-box,
+.personal-description .info-box,
+.logros-description .info-box,
+.contacto-description .info-box {
+    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.galeria-description .info-box:hover,
+.noticias-description .info-box:hover,
+.personal-description .info-box:hover,
+.logros-description .info-box:hover,
+.contacto-description .info-box:hover {
+    transform: translateY(-2px);
+}
+
+.no-images-container,
+.no-news-container,
+.no-personal-container,
+.no-logros-container {
+    background: rgba(248, 249, 251, 0.8);
+    border-radius: 15px;
+    border: 1px solid rgba(106, 27, 154, 0.1);
+}
+
+.no-news-container .feature-item,
+.no-personal-container .team-feature,
+.no-logros-container .logro-feature {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.no-news-container .feature-item:hover,
+.no-personal-container .team-feature:hover,
+.no-logros-container .logro-feature:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(106, 27, 154, 0.15);
+}
+
+#galeria .gallery-thumb {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+@media (max-width: 767.98px) {
+    #galeria .gallery-thumb {
+        height: 160px;
+    }
+
+    .galeria-description .info-box,
+    .noticias-description .info-box,
+    .personal-description .info-box,
+    .logros-description .info-box,
+    .contacto-description .info-box {
+        padding: 1rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .galeria-description .info-box p,
+    .noticias-description .info-box p,
+    .personal-description .info-box p,
+    .logros-description .info-box p,
+    .contacto-description .info-box p {
+        font-size: 0.95rem;
+    }
+
+    .no-images-container,
+    .no-news-container,
+    .no-personal-container,
+    .no-logros-container {
+        padding: 2rem !important;
+    }
+
+    .no-news-container .features-preview,
+    .no-personal-container .team-preview,
+    .no-logros-container .logros-preview {
+        margin-top: 2rem !important;
+    }
+
+    .no-news-container .feature-item,
+    .no-personal-container .team-feature,
+    .no-logros-container .logro-feature {
+        margin-bottom: 1rem;
+    }
+}
+
+#galeria .gallery-item:hover .gallery-thumb {
+    transform: scale(1.02);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+}
+
+/* Logros Estudiantiles */
+.achievement-item {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+}
+
+.achievement-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(106, 27, 154, 0.15);
+}
+
+/* Overlay para indicar que es clickeable */
+.achievement-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(106, 27, 154, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+.achievement-item:hover .achievement-overlay {
+    opacity: 1;
+}
+
+/* Estilos para modales de logros */
+.modal .badge {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    line-height: 1.4 !important;
+    display: inline-block !important;
+    max-width: 100% !important;
+    text-align: left !important;
+}
+
+.logro-type-modal .badge {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 0.75rem !important;
+}
+
+.modal-body .badge.bg-primary,
+.modal-body .badge.bg-success {
+    font-weight: 500;
+}
+
+.achievement-img {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fb;
+}
+
+.achievement-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.2s ease;
+    padding: 8px;
+}
+
+.achievement-item:hover .achievement-img img {
+    transform: scale(1.02);
+}
+
+.achievement-content {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--color-violeta);
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+}
+
+.achievement-description {
+    font-size: 0.9rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.achievement-meta {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+}
+
+.achievement-footer {
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.logro-type .badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+}
+
+#logros .section-bg {
+    background-color: #f8f9fb;
+}
+
+/* Modal de logros */
+#logros-estudiantiles .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+#logros-estudiantiles .modal-header {
+    padding: 1rem 1.5rem;
+}
+
+#logros-estudiantiles .modal-body .achievement-info i {
+    font-size: 1.1rem;
+}
+
+/* Responsive para logros */
+@media (max-width: 767.98px) {
+    .achievement-img {
+        height: 180px;
+    }
+
+    .achievement-img img {
+        padding: 6px;
+    }
+
+    .achievement-title {
+        font-size: 1.05rem;
+    }
+}
+
+/* Equipo Docente - Cards mejoradas */
+.team-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(33, 37, 41, 0.06);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(106, 27, 154, 0.15);
+}
+
+.team-card-img {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.team-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.team-card:hover .team-card-img img {
+    transform: scale(1.05);
+}
+
+.team-card-img .placeholder-img {
+    width: 100%;
+    height: 100%;
+}
+
+.team-card-body {
+    padding: 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.team-card-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--color-violeta);
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+}
+
+.team-card-subject {
+    display: block;
+    font-weight: 600;
+    color: var(--color-gris);
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.team-card-specialty {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+}
+
+.team-card-bio {
+    font-size: 0.9rem;
+    color: #6c757d;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.team-card-footer {
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.text-violeta {
+    color: var(--color-violeta) !important;
+}
+
+/* Modal de detalle del personal */
+#team .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+#team .modal-header {
+    padding: 1rem 1.5rem;
+}
+
+#team .modal-body .contact-info i {
+    font-size: 1.1rem;
+}
+
+#team .modal-body .contact-info a:hover {
+    color: var(--color-violeta) !important;
+}
+
+/* Responsive ajustes para cards de equipo */
+@media (max-width: 767.98px) {
+    .team-card-img {
+        height: 240px;
+    }
+
+    .team-card-name {
+        font-size: 1.05rem;
+    }
+}

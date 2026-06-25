@@ -1,0 +1,11 @@
+.DS_Store
+.git
+.github
+.env
+.env.*
+Kiosco/.env
+Kiosco/vendor
+docker/mysql/data
+node_modules
+vendor
+*.log

@@ -1,3 +1,5 @@
+FROM composer:2 AS composer
+
 FROM php:8.2-apache
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -26,6 +28,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
     CMD curl -fsS http://localhost/ >/dev/null || exit 1

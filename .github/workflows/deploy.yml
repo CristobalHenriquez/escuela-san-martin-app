@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Lint PHP syntax
+        run: |
+          find . -path ./Kiosco/vendor -prune -o -name "*.php" -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+      - name: Install Kiosco composer dependencies
+        working-directory: Kiosco
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Build root Docker image
+        run: docker build -t escuela-app:ci .

@@ -42,12 +42,14 @@ Hostinger ya ofrece sus propios backups automáticos a nivel de hosting (capa ad
 Un solo workflow en la raíz del repo (`.github/workflows/deploy.yml`), ya que Kiosco vive anidado dentro del mismo árbol y se despliega junto con el sitio raíz.
 
 **Job `validate`** (en todo push y PR a `main`):
+
 1. Checkout del repo.
 2. Lint sintáctico PHP sobre todo el árbol (excluyendo `vendor/`): `php -l` por archivo.
 3. `composer install --no-dev --optimize-autoloader` dentro de `Kiosco/` — valida que las dependencias instalan y genera el `vendor/` que efectivamente se va a desplegar.
 4. `docker build` de la imagen raíz unificada, para detectar roturas del `Dockerfile` antes de mergear.
 
 **Job `deploy`** (solo en push a `main`, solo si `validate` fue exitoso):
+
 1. **Gate de aprobación manual**: el job usa un GitHub *Environment* llamado `production` con "required reviewers" configurado al usuario. El job queda pausado — mostrando el diff a desplegar — hasta que se apruebe manualmente con un clic. Este gate se puede remover más adelante cuando haya confianza en el pipeline.
 2. **Backup previo al deploy** (una vez aprobado, antes de tocar nada):
    - Por SSH (clave en el secreto `DEPLOY_SSH_KEY`), se genera un `tar.gz` con marca de tiempo del estado actual del servidor (`public_html/` y `public_html/Kiosco/`, excluyendo `uploads/` ya que nunca se toca) en una carpeta fuera del docroot (ej. `~/backups/`, no accesible por web).
@@ -65,6 +67,7 @@ Un solo workflow en la raíz del repo (`.github/workflows/deploy.yml`), ya que K
 4. La base de datos de producción **nunca** se toca por este pipeline: no se ejecuta ningún `.sql`, no hay paso de migración. Cualquier cambio de esquema se sigue haciendo a mano y con cuidado.
 
 **Workflow de rollback** (`rollback.yml`, disparado manualmente vía `workflow_dispatch`, nunca automático):
+
 - Input: qué backup restaurar (por defecto, el más reciente disponible).
 - Descarga el backup elegido (desde el artifact de GitHub si sigue dentro de la ventana de retención, o directamente desde `~/backups/` en el servidor si es más reciente) y lo sincroniza de vuelta por SSH, restaurando exactamente ese estado de archivos. No toca la base de datos (no hace falta: nunca fue tocada).
 

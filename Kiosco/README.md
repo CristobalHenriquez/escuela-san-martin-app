@@ -14,27 +14,25 @@ Sistema POS escolar en PHP + MySQL.
 
 ## Requisitos
 
-- Docker + Docker Compose
+- Docker + Docker Compose (se levanta junto con el sitio principal, ver raíz del repo)
 
 ## Levantar el proyecto local
 
-1. Clonar el repositorio.
-2. (Opcional) copiar variables de entorno:
+Kiosco ya no tiene un stack Docker propio: se levanta como parte del compose de la raíz del
+repositorio (comparte imagen PHP, MySQL y red con el sitio principal, igual que en producción,
+donde Kiosco vive como subcarpeta del mismo hosting).
 
-```bash
-cp .env.example .env
-```
-
-3. Levantar contenedores:
+Desde la raíz del repo (no desde `Kiosco/`):
 
 ```bash
 docker compose up -d --build
 ```
 
-4. Abrir:
+- App: [http://localhost:8081/Kiosco/login.php](http://localhost:8081/Kiosco/login.php)
+- MySQL local: `localhost:3308` (bases `escuela_san_martin` y `kiosco` en el mismo contenedor MySQL)
 
-- App: [http://localhost:8080/login.php](http://localhost:8080/login.php)
-- MySQL local: `localhost:3307`
+Las dependencias de Composer (`phpoffice/phpspreadsheet`, `mpdf`) se instalan automáticamente la
+primera vez que arranca el contenedor `app` (ver `docker/entrypoint.sh` en la raíz).
 
 ## Credenciales iniciales (seed local)
 
@@ -73,25 +71,10 @@ En producción puedes definirlas en variables de entorno del hosting o en archiv
 
 ## CI/CD (GitHub Actions)
 
-El workflow vive en `.github/workflows/ci.yml` y ejecuta:
-
-1. `php-lint`
-2. `docker-build`
-3. `e2e-smoke` (flujo básico completo)
-4. `deploy-production` solo en `push` a `main` (si todo lo anterior pasa)
-
-### Secretos requeridos para deploy
-
-Configurar estos secretos en GitHub (`Settings > Secrets and variables > Actions`):
-
-- `DEPLOY_HOST`: IP o dominio SSH del hosting
-- `DEPLOY_PORT`: puerto SSH (ejemplo Hostinger: `65002`)
-- `DEPLOY_USER`: usuario SSH
-- `DEPLOY_SSH_KEY`: clave privada (formato OpenSSH, recomendado)
-- `DEPLOY_PASSWORD`: contraseña SSH (alternativa si no usas clave)
-- `DEPLOY_PATH`: ruta remota del proyecto (ejemplo: `/home/USER/domains/DOMINIO/public_html/Kiosco/`)
-
-El deploy usa `rsync` y excluye `.env`, `uploads/`, `backups/` y carpetas de desarrollo para no pisar configuración ni comprobantes.
+El workflow vive en la raíz del repo (`.github/workflows/deploy.yml`), no acá — Kiosco se
+despliega junto con el sitio principal en un solo pipeline, ya que ambos viven en el mismo
+hosting (Kiosco como subcarpeta). Ver el `README.md` de la raíz para el detalle del pipeline,
+los secretos configurados y el workflow de rollback (`.github/workflows/rollback.yml`).
 
 ## Operación diaria
 
@@ -116,6 +99,8 @@ El deploy usa `rsync` y excluye `.env`, `uploads/`, `backups/` y carpetas de des
 6. Cerrar turno y revisar reportes/capital.
 
 ## Apagar entorno local
+
+Desde la raíz del repo (apaga también el sitio principal, ya que comparten stack):
 
 ```bash
 docker compose down

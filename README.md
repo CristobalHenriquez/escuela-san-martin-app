@@ -143,6 +143,7 @@ docker compose up -d --build
 #### URLs locales
 - Sitio web: http://localhost:8081
 - Panel admin: http://localhost:8081/admin/login.php
+- Kiosco (POS escolar): http://localhost:8081/Kiosco/login.php
 - MySQL local: `localhost:3308`
 
 phpMyAdmin es opcional y se levanta solo cuando hace falta:

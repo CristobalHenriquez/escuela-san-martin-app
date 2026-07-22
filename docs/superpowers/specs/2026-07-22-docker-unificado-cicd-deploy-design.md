@@ -50,7 +50,7 @@ Un solo workflow en la raíz del repo (`.github/workflows/deploy.yml`), ya que K
 
 **Job `deploy`** (solo en push a `main`, solo si `validate` fue exitoso):
 
-1. **Gate de aprobación manual**: el job usa un GitHub *Environment* llamado `production` con "required reviewers" configurado al usuario. El job queda pausado — mostrando el diff a desplegar — hasta que se apruebe manualmente con un clic. Este gate se puede remover más adelante cuando haya confianza en el pipeline.
+1. **Gate de aprobación manual**: el "required reviewer" nativo de GitHub *Environments* requiere un plan pago (Pro/Team/Enterprise) para repos privados, y este repo no lo tiene. En su lugar, el job `deploy` solo se dispara vía `workflow_dispatch` (botón "Run workflow" en la pestaña Actions) — push/PR a `main` disparan únicamente `validate`. El efecto práctico es el mismo (nada se despliega sin una acción explícita del usuario), sin costo adicional. Si más adelante se contrata GitHub Pro, se puede migrar a un *Environment* `production` con revisor obligatorio.
 2. **Backup previo al deploy** (una vez aprobado, antes de tocar nada):
    - Por SSH (clave en el secreto `DEPLOY_SSH_KEY`), se genera un `tar.gz` con marca de tiempo del estado actual del servidor (`public_html/` y `public_html/Kiosco/`, excluyendo `uploads/` ya que nunca se toca) en una carpeta fuera del docroot (ej. `~/backups/`, no accesible por web).
    - Ese `.tar.gz` se descarga al runner y se sube como *artifact* del workflow (retención ~30 días), para tener una copia también fuera del hosting.

@@ -4,14 +4,14 @@
 
 **Goal:** Unificar el entorno Docker local (un solo stack para sitio + Kiosco) y automatizar el deploy a producción vía GitHub Actions, con aprobación manual, backup previo y rollback, sin tocar nunca la base de datos real.
 
-**Architecture:** Se agrega `composer` y un entrypoint custom a la imagen raíz para que Kiosco funcione como subcarpeta del mismo contenedor (se elimina su stack Docker independiente). El deploy usa un único workflow de GitHub Actions con dos jobs (`validate` y `deploy`, este último detrás de un *environment* `production` con revisor obligatorio) que sincroniza archivos por `rsync` sobre SSH hacia el hosting compartido de Hostinger, con una lista de exclusiones versionada y un backup remoto + artifact previo a cada deploy. Un workflow separado (`rollback.yml`) permite restaurar cualquier backup manualmente.
+**Architecture:** Se agrega `composer` y un entrypoint custom a la imagen raíz para que Kiosco funcione como subcarpeta del mismo contenedor (se elimina su stack Docker independiente). El deploy usa un único workflow de GitHub Actions con dos jobs (`validate`, automático en push/PR a `main`; `deploy`, disparado únicamente a mano vía `workflow_dispatch` — el "required reviewer" nativo de *Environments* no está disponible en el plan actual de GitHub para repos privados) que sincroniza archivos por `rsync` sobre SSH hacia el hosting compartido de Hostinger, con una lista de exclusiones versionada y un backup remoto + artifact previo a cada deploy. Un workflow separado (`rollback.yml`) permite restaurar cualquier backup manualmente.
 
 **Tech Stack:** Docker, Docker Compose, PHP 8.2 (Apache), Composer, GitHub Actions, `rsync`/`ssh`/`tar`, GitHub CLI (`gh`).
 
 ## Global Constraints
 
 - La base de datos de producción (`escuela_san_martin` y `kiosco` en el hosting real) **nunca** se toca por ningún workflow: no se ejecuta ningún `.sql`, no hay pasos de migración.
-- El job `deploy` requiere aprobación manual (GitHub *Environment* `production` con revisor obligatorio) hasta nueva decisión — no se remueve en este plan.
+- El job `deploy` requiere una acción manual explícita: se dispara únicamente vía `workflow_dispatch` (botón "Run workflow"), nunca automáticamente en push a `main`. GitHub *Environments* con "required reviewers" no está disponible en el plan actual del repo (privado, sin Pro/Team/Enterprise); si se contrata en el futuro, se puede migrar a ese mecanismo.
 - El primer deploy real usa `rsync` **sin** `--delete` hasta que el Task 3 (verificación de consistencia) se haya completado y revisado con el usuario.
 - Las exclusiones de `rsync` para el **deploy de código** (repo → servidor) viven en un único archivo versionado (`deploy/rsync-excludes.txt`), nunca duplicadas inline. El rollback (backup → servidor, ambos ya en producción) usa su propia exclusión mínima de `uploads/`, ya que no aplica el resto de la lista (`.git/`, `docker/`, etc. no existen en un backup de producción).
 - Nunca se commitea ninguna clave privada, contraseña, ni el contenido de `~/.ssh/`. Todo secreto vive en GitHub Secrets.
@@ -390,14 +390,16 @@ EOF
 
 ---
 
-### Task 6: Configurar secretos y el Environment `production` en GitHub
+### Task 6: Configurar secretos de deploy en GitHub
 
 **Files:**
 - No se modifica el repo (configuración vía GitHub API/CLI).
 
 **Interfaces:**
 - Consume: clave privada de Task 1 (`~/.ssh/eeso225_deploy_ed25519`), ruta remota confirmada en Task 2 Step 1.
-- Produce: secretos `DEPLOY_SSH_KEY`, `DEPLOY_HOST`, `DEPLOY_PORT`, `DEPLOY_USER`, `DEPLOY_PATH`, y el *environment* `production` con revisor obligatorio, consumidos por Task 8 y Task 9.
+- Produce: secretos `DEPLOY_SSH_KEY`, `DEPLOY_HOST`, `DEPLOY_PORT`, `DEPLOY_USER`, `DEPLOY_PATH`, consumidos por Task 8 y Task 9.
+
+**Nota:** el plan original incluía crear un GitHub *Environment* `production` con "required reviewers". Esa protección requiere un plan pago (Pro/Team/Enterprise) para repos privados — este repo no lo tiene (`gh api` devuelve 422 al intentarlo). En su lugar, el gate manual se logra con el trigger `workflow_dispatch` del job `deploy` (Task 8), sin necesitar ningún *environment*.
 
 - [ ] **Step 1: Confirmar que `gh` está autenticado contra el repo correcto**
 
@@ -427,43 +429,7 @@ gh secret list --repo CristobalHenriquez/escuela-san-martin-app
 
 Expected: lista `DEPLOY_SSH_KEY`, `DEPLOY_HOST`, `DEPLOY_PORT`, `DEPLOY_USER`, `DEPLOY_PATH`.
 
-- [ ] **Step 4: Crear el environment `production` con revisor obligatorio**
-
-```bash
-OWNER_ID=$(gh api users/CristobalHenriquez --jq .id)
-cat <<EOF > /tmp/env-production.json
-{
-  "reviewers": [{"type": "User", "id": $OWNER_ID}],
-  "deployment_branch_policy": {
-    "protected_branches": false,
-    "custom_branch_policies": true
-  }
-}
-EOF
-gh api --method PUT repos/CristobalHenriquez/escuela-san-martin-app/environments/production --input /tmp/env-production.json
-rm /tmp/env-production.json
-```
-
-Expected: respuesta JSON con `"name": "production"` y `"protection_rules"` incluyendo un `type: required_reviewers`.
-
-- [ ] **Step 5: Restringir el environment a la rama `main`**
-
-```bash
-gh api --method POST repos/CristobalHenriquez/escuela-san-martin-app/environments/production/deployment-branch-policies \
-  -f name=main
-```
-
-Expected: respuesta JSON con `"name": "main"`.
-
-- [ ] **Step 6: Verificar la configuración final del environment**
-
-```bash
-gh api repos/CristobalHenriquez/escuela-san-martin-app/environments/production --jq '.protection_rules'
-```
-
-Expected: incluye un objeto con `"type": "required_reviewers"` y el usuario configurado.
-
-- [ ] **Step 7: Commit** — no aplica (configuración vive en GitHub, no en el repo).
+- [ ] **Step 4: Commit** — no aplica (configuración vive en GitHub, no en el repo).
 
 ---
 
@@ -487,6 +453,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -562,9 +529,8 @@ Agregar al final de `.github/workflows/deploy.yml` (después del job `validate`,
 ```yaml
   deploy:
     needs: validate
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -624,10 +590,11 @@ Expected: `YAML_OK`.
 ```bash
 git add .github/workflows/deploy.yml
 git commit -m "$(cat <<'EOF'
-Add gated deploy job: manual approval, pre-deploy backup, rsync
+Add gated deploy job: manual dispatch, pre-deploy backup, rsync
 
-Deploy only runs on push to main, behind the production environment's
-required reviewer. Backs up the live server (excluding uploads/) both
+Deploy never runs automatically — only via workflow_dispatch, since
+GitHub Environments' required-reviewer protection isn't available on
+this repo's plan. Backs up the live server (excluding uploads/) both
 remotely and as a downloadable workflow artifact before syncing, and
 never runs against the database.
 
@@ -636,16 +603,17 @@ EOF
 )"
 ```
 
-- [ ] **Step 4: 🧑 Push y aprobar manualmente el primer deploy real**
+- [ ] **Step 4: 🧑 Push y disparar manualmente el primer deploy real**
 
 ```bash
 git push
+gh workflow run deploy.yml --repo CristobalHenriquez/escuela-san-martin-app --ref main
 gh run list --repo CristobalHenriquez/escuela-san-martin-app --workflow=deploy.yml --limit 1
 ```
 
-Expected: el run queda en estado `waiting` sobre el job `deploy` (esperando revisor). El usuario debe entrar a la pestaña Actions de GitHub y aprobar manualmente antes de que el rsync real se ejecute contra producción.
+Expected: el segundo comando dispara un run nuevo sobre `main`; el `run list` lo muestra en estado `in_progress` (o `queued`). Este `gh workflow run` es en sí mismo la aprobación manual — solo debe ejecutarse cuando el usuario decide conscientemente desplegar.
 
-- [ ] **Step 5: Verificar el resultado tras la aprobación**
+- [ ] **Step 5: Verificar el resultado**
 
 ```bash
 gh run watch --repo CristobalHenriquez/escuela-san-martin-app
@@ -682,7 +650,6 @@ on:
 jobs:
   rollback:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4

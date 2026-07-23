@@ -76,8 +76,10 @@ if (move_uploaded_file($file['tmp_name'], $file_path)) {
     // Optimizar imagen si es necesario
     optimizeImage($file_path, $mime_type);
     
-    // URL relativa para el editor
-    $file_url = 'uploads/editor/' . $filename;
+    // URL relativa a la raíz del sitio (con barra inicial): el editor vive en /admin/,
+    // pero uploads/ está en la raíz — una ruta sin barra inicial se resolvía relativa
+    // a /admin/ y rompía la vista previa en el propio editor.
+    $file_url = '/uploads/editor/' . $filename;
     
     echo json_encode([
         'success' => true,

@@ -143,6 +143,7 @@ docker compose up -d --build
 #### URLs locales
 - Sitio web: http://localhost:8081
 - Panel admin: http://localhost:8081/admin/login.php
+- Kiosco (POS escolar): http://localhost:8081/Kiosco/login.php
 - MySQL local: `localhost:3308`
 
 phpMyAdmin es opcional y se levanta solo cuando hace falta:
@@ -378,6 +379,17 @@ CREATE TABLE `users` (
 
 ### Archivo SQL Completo:
 El archivo completo está disponible en: `database/escuela_san_martin.sql`
+
+## 🚀 CI/CD y Deploy
+
+El pipeline vive en `.github/workflows/deploy.yml`:
+
+- **`validate`**: corre automáticamente en cada push/PR a `main` (lint PHP, `composer install` de Kiosco, build de la imagen Docker). Es la validación antes de mergear.
+- **`deploy`**: nunca se dispara solo. Se ejecuta a mano desde GitHub → pestaña **Actions → Deploy → Run workflow** (rama `main`). Antes de sincronizar, hace un backup remoto de producción (subido también como *artifact* del run) y recién después sube los archivos por `rsync` — la base de datos de producción nunca se toca.
+
+## 🔙 Rollback de producción
+
+Si un deploy rompe algo, se puede restaurar el backup previo (tomado automáticamente antes de cada deploy) desde GitHub: pestaña **Actions → Rollback → Run workflow**. Dejar el campo `backup_file` vacío restaura el backup más reciente; si se necesita uno específico, revisar los artifacts de deploys anteriores (`pre-deploy-backup-<sha>`) o listar `~/backups/` en el servidor por SSH.
 
 ## Contribuidores
 

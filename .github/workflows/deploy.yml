@@ -1,0 +1,82 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Lint PHP syntax
+        run: |
+          find . -path ./Kiosco/vendor -prune -o -name "*.php" -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+      - name: Install Kiosco composer dependencies
+        working-directory: Kiosco
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Build root Docker image
+        run: docker build -t escuela-app:ci .
+
+  deploy:
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Backup current production state
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
+              mkdir -p ~/backups &&
+              tar -czf ~/backups/pre_deploy_\$(date +%Y%m%d_%H%M%S).tar.gz \
+                --exclude='public_html/uploads' \
+                --exclude='public_html/Kiosco/uploads/comprobantes' \
+                -C ~/${{ secrets.DEPLOY_PATH }}/.. \$(basename ${{ secrets.DEPLOY_PATH }}) &&
+              cd ~/backups && ls -t pre_deploy_*.tar.gz | tail -n +6 | xargs -r rm --
+            "
+
+      - name: Download backup as workflow artifact
+        run: |
+          LATEST=$(ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "ls -t ~/backups/pre_deploy_*.tar.gz | head -1")
+          scp -i ~/.ssh/deploy_key -P ${{ secrets.DEPLOY_PORT }} \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${LATEST}" ./pre_deploy_backup.tar.gz
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pre-deploy-backup-${{ github.sha }}
+          path: pre_deploy_backup.tar.gz
+          retention-days: 30
+
+      - name: Rsync deploy
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }}" \
+            --exclude-from=deploy/rsync-excludes.txt \
+            ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:~/${{ secrets.DEPLOY_PATH }}/

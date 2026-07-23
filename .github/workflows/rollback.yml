@@ -1,0 +1,49 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      backup_file:
+        description: 'Nombre exacto del backup en ~/backups/ (vacío = el más reciente)'
+        required: false
+        default: ''
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Resolve backup file to restore
+        id: resolve
+        run: |
+          INPUT="${{ github.event.inputs.backup_file }}"
+          if [ -z "$INPUT" ]; then
+            FILE=$(ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+              ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+              "ls -t ~/backups/*.tar.gz | head -1")
+          else
+            FILE="~/backups/$INPUT"
+          fi
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Restore backup on the server
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }} \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "
+              rm -rf /tmp/rollback_restore && mkdir -p /tmp/rollback_restore &&
+              tar -xzf ${{ steps.resolve.outputs.file }} -C /tmp/rollback_restore &&
+              rsync -a --delete \
+                --exclude='uploads' --exclude='Kiosco/uploads/comprobantes' \
+                /tmp/rollback_restore/$(basename ${{ secrets.DEPLOY_PATH }})/ \
+                ~/${{ secrets.DEPLOY_PATH }}/ &&
+              rm -rf /tmp/rollback_restore
+            "

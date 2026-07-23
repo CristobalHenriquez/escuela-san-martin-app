@@ -9,3 +9,4 @@ Kiosco/vendor/
 node_modules/
 *.log
 backups-locales/
+CLAUDE.md

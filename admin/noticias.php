@@ -38,6 +38,18 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     $tipoMensaje = "success";
 }
 
+// Procesar mensajes de error
+if (isset($_GET['error'])) {
+    $tipoMensaje = "error";
+
+    if (isset($_SESSION['error_message'])) {
+        $mensaje = $_SESSION['error_message'];
+        unset($_SESSION['error_message']);
+    } else {
+        $mensaje = "Ocurrió un error al procesar la noticia.";
+    }
+}
+
 // Paginación
 $porPagina = ADMIN_POSTS_POR_PAGINA;
 $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;

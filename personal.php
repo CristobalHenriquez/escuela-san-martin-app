@@ -167,7 +167,7 @@ $materias = $materiasStmt->fetch_all(MYSQLI_ASSOC);
                             <?php endif; ?>
                             
                             <?php if (!empty($miembro['biografia'])): ?>
-                                <p class="team-card-bio"><?= truncarTexto(strip_tags($miembro['biografia']), 100) ?></p>
+                                <p class="team-card-bio"><?= truncarTexto(html_entity_decode(strip_tags($miembro['biografia']), ENT_QUOTES, 'UTF-8'), 100) ?></p>
                             <?php endif; ?>
                             
                             <div class="team-card-footer">

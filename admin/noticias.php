@@ -248,7 +248,7 @@ $resultado = $stmt->get_result();
                                         <?= htmlspecialchars($noticia['titulo']) ?>
                                     </div>
                                     <div class="text-muted small">
-                                        <?= truncarTexto(strip_tags($noticia['contenido']), 100) ?>
+                                        <?= truncarTexto(html_entity_decode(strip_tags($noticia['contenido']), ENT_QUOTES, 'UTF-8'), 100) ?>
                                     </div>
                                 </td>
                                 <td>

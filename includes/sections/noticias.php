@@ -91,7 +91,7 @@ $cardSizeClass = ($count === 1) ? ' news-card-lg' : '';
                     </h3>
 
                     <?php 
-                        $resumen = isset($noticia['contenido']) ? strip_tags($noticia['contenido']) : '';
+                        $resumen = isset($noticia['contenido']) ? html_entity_decode(strip_tags($noticia['contenido']), ENT_QUOTES, 'UTF-8') : '';
                         if (function_exists('truncarTexto')) {
                             $resumen = truncarTexto($resumen, 160);
                         } else {

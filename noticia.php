@@ -541,9 +541,16 @@ $relacionadas = noticiasRelacionadas($pdo, $post['categoria'], $post['id']);
                     </a>
                 </div>
 
+                <!-- Imagen principal -->
+                <?php if (!empty($post['imagen'])): ?>
+                    <img src="<?= htmlspecialchars($post['imagen']) ?>"
+                         alt="<?= htmlspecialchars($post['titulo']) ?>"
+                         class="img-fluid noticia-imagen-principal w-100">
+                <?php endif; ?>
+
                 <!-- Categoría -->
                 <span class="noticia-categoria"><?= ucfirst($post['categoria']) ?></span>
-                
+
                 <!-- Título -->
                 <h1 class="noticia-titulo"><?= htmlspecialchars($post['titulo']) ?></h1>
                 
@@ -589,13 +596,6 @@ $relacionadas = noticiasRelacionadas($pdo, $post['categoria'], $post['id']);
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <article>
-                <!-- Imagen principal -->
-                <?php if (!empty($post['imagen'])): ?>
-                    <img src="<?= htmlspecialchars($post['imagen']) ?>" 
-                         alt="<?= htmlspecialchars($post['titulo']) ?>" 
-                         class="img-fluid noticia-imagen-principal w-100">
-                <?php endif; ?>
-
                 <!-- Contenido -->
                 <div class="noticia-contenido">
                     <?= $post['contenido'] ?>

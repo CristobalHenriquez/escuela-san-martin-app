@@ -45,7 +45,7 @@ $posts = $stmt->fetchAll();
         <?php foreach ($posts as $post): ?>
             <?php 
                 $fecha = htmlspecialchars(date('d/m/Y', strtotime($post['fecha_publicacion'] ?? $post['created_at'] ?? date('Y-m-d'))));
-                $resumen = strip_tags($post['contenido'] ?? '');
+                $resumen = html_entity_decode(strip_tags($post['contenido'] ?? ''), ENT_QUOTES, 'UTF-8');
                 if (function_exists('truncarTexto')) {
                     $resumen = truncarTexto($resumen, 160);
                 } else {

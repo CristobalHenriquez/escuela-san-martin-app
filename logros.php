@@ -96,7 +96,7 @@ $logros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             
                             <?php if (!empty($logro['descripcion'])): ?>
                                 <p class="achievement-description">
-                                    <?= truncarTexto(strip_tags($logro['descripcion']), 100) ?>
+                                    <?= truncarTexto(html_entity_decode(strip_tags($logro['descripcion']), ENT_QUOTES, 'UTF-8'), 100) ?>
                                 </p>
                             <?php endif; ?>
                             

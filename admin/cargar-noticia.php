@@ -74,10 +74,8 @@ include_once 'includes/head.php';
 
           <div class="mb-4">
             <label class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
-            <!-- Editor Quill -->
-            <div id="contenido" style="height: 300px;"><?= $contenido ?></div>
-            <!-- Campo oculto para enviar el contenido -->
-            <textarea id="contenido_hidden" name="contenido" style="display: none;"><?= htmlspecialchars($contenido) ?></textarea>
+            <!-- Editor TinyMCE -->
+            <textarea id="contenido" name="contenido" class="tinymce-editor"><?= htmlspecialchars($contenido) ?></textarea>
           </div>
         </div>
 
@@ -205,6 +203,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // Confirmación antes de enviar
   document.getElementById('formCrearNoticia').addEventListener('submit', function(e) {
     e.preventDefault();
+
+    // Sincronizar contenido de TinyMCE antes de enviar
+    if (typeof tinymce !== 'undefined' && tinymce.activeEditor) {
+        tinymce.activeEditor.save();
+    }
+
     Swal.fire({
       title: '¿Crear noticia?',
       showCancelButton: true,

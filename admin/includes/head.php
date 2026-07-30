@@ -224,21 +224,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
                             <i class="bi bi-speedometer2 me-1"></i> Panel
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'noticias.php' || $current_page === 'cargar-noticia.php' || $current_page === 'editar-noticia.php' ? 'active' : '' ?>" href="noticias.php">
-                            <i class="bi bi-newspaper me-1"></i> Noticias
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'personal.php' || $current_page === 'cargar-personal.php' || $current_page === 'editar-personal.php' ? 'active' : '' ?>" href="personal.php">
-                            <i class="bi bi-people me-1"></i> Personal Docente
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'logros.php' || $current_page === 'cargar-logro.php' || $current_page === 'editar-logro.php' ? 'active' : '' ?>" href="logros.php">
-                            <i class="bi bi-trophy me-1"></i> Logros Estudiantiles
-                        </a>
-                    </li>
+                    <?php if (isset($_SESSION['es_admin']) && $_SESSION['es_admin']): ?>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $current_page === 'noticias.php' || $current_page === 'cargar-noticia.php' || $current_page === 'editar-noticia.php' ? 'active' : '' ?>" href="noticias.php">
+                                <i class="bi bi-newspaper me-1"></i> Noticias
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $current_page === 'personal.php' || $current_page === 'cargar-personal.php' || $current_page === 'editar-personal.php' ? 'active' : '' ?>" href="personal.php">
+                                <i class="bi bi-people me-1"></i> Personal Docente
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $current_page === 'logros.php' || $current_page === 'cargar-logro.php' || $current_page === 'editar-logro.php' ? 'active' : '' ?>" href="logros.php">
+                                <i class="bi bi-trophy me-1"></i> Logros Estudiantiles
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
 
                 <!-- Usuario y menú desplegable -->
@@ -247,8 +249,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <div class="user-avatar">
                             <?= strtoupper(substr(obtenerNombreAdmin(), 0, 1)) ?>
                         </div>
-                        <span class="mx-2"><?= obtenerNombreAdmin() ?></span>
-                        <i class="bi bi-chevron-down"></i>
+                        <div>
+                            <span><?= obtenerNombreAdmin() ?></span>
+                            <div class="small text-muted">
+                                <?= isset($_SESSION['usuario_rol']) && $_SESSION['usuario_rol'] === 'docente' ? 'Docente' : 'Administrador' ?>
+                            </div>
+                        </div>
+                        <i class="bi bi-chevron-down ms-2"></i>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item logout-link" href="logout.php" style="color: var(--dark); text-decoration: none; display: flex; align-items: center;"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>

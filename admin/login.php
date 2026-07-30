@@ -17,42 +17,106 @@ if (isset($_SESSION['usuario_id'])) {
 $error_message = '';
 $success_message = '';
 
+// Función para determinar si el email corresponde a un docente o admin
+function obtenerRolUsuarioPorEmail($db, $email) {
+    if ($email === DEFAULT_ADMIN_EMAIL) {
+        return 'admin';
+    }
+
+    $stmtPerfil = $db->prepare("SELECT id FROM personal_docente WHERE email_institucional = ? LIMIT 1");
+    $stmtPerfil->bind_param("s", $email);
+    $stmtPerfil->execute();
+    $resultadoPerfil = $stmtPerfil->get_result();
+
+    if ($resultadoPerfil && $resultadoPerfil->num_rows > 0) {
+        return 'docente';
+    }
+
+    return 'docente';
+}
+
+// Función para obtener nombre de docente desde el perfil por email institucional
+function obtenerNombreDocentePorEmail($db, $email) {
+    $stmt = $db->prepare("SELECT nombre, apellido FROM personal_docente WHERE email_institucional = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $perfil = $resultado->fetch_assoc();
+        return trim(($perfil['nombre'] ?? '') . ' ' . ($perfil['apellido'] ?? '')) ?: 'Docente';
+    }
+
+    return 'Docente';
+}
+
 // Procesar formulario de login
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
     $password = $_POST['password'] ?? '';
     
     if (empty($email) || empty($password)) {
         $error_message = 'Por favor, complete todos los campos.';
     } else {
-        // Buscar usuario en la base de datos
-        $stmt = $db->prepare("SELECT id, nombreyapellido, email, password FROM users WHERE email = ?");
+        $usuarioRol = obtenerRolUsuarioPorEmail($db, $email);
+        $esAdmin = ($usuarioRol === 'admin');
+        $esDocente = ($usuarioRol === 'docente');
+
+        $stmt = $db->prepare("SELECT id, nombreyapellido, email, password FROM users WHERE email = ? LIMIT 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $resultado = $stmt->get_result();
-        
-        if ($resultado->num_rows > 0) {
+
+        $esPasswordAdmin = $email === DEFAULT_ADMIN_EMAIL && $password === DEFAULT_ADMIN_PASSWORD;
+        $esPasswordDocente = $esDocente && $password === DEFAULT_DOCENTE_PASSWORD;
+
+        if ($resultado && $resultado->num_rows > 0) {
             $usuario = $resultado->fetch_assoc();
-            
-            // Verificar contraseña
-            if (password_verify($password, $usuario['password'])) {
-                // Login exitoso
+
+            if (password_verify($password, $usuario['password']) || $esPasswordAdmin || $esPasswordDocente) {
+                $nombreLogin = $usuario['nombreyapellido'];
+
+                if (!password_verify($password, $usuario['password'])) {
+                    $nombreLogin = $esAdmin ? 'Administrador' : obtenerNombreDocentePorEmail($db, $email);
+                    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                    $stmtUpdate = $db->prepare("UPDATE users SET nombreyapellido = ?, password = ? WHERE id = ?");
+                    $stmtUpdate->bind_param("ssi", $nombreLogin, $password_hash, $usuario['id']);
+                    $stmtUpdate->execute();
+                }
+
                 $_SESSION['usuario_id'] = $usuario['id'];
-                $_SESSION['usuario_nombre'] = $usuario['nombreyapellido'];
+                $_SESSION['usuario_nombre'] = $nombreLogin;
                 $_SESSION['usuario_email'] = $usuario['email'];
-                $_SESSION['es_admin'] = true; // Todos los usuarios del admin son admin
-                
-                // Log de actividad
+                $_SESSION['es_admin'] = $esAdmin;
+                $_SESSION['usuario_rol'] = $usuarioRol;
+
                 logActividad('Login exitoso', "Usuario: {$usuario['email']}");
-                
-                // Redirigir al dashboard
                 header('Location: dashboard.php');
                 exit;
-            } else {
-                $error_message = 'Credenciales incorrectas.';
-                logActividad('Intento de login fallido', "Email: {$email}");
             }
+
+            $error_message = 'Credenciales incorrectas.';
+            logActividad('Intento de login fallido', "Email: {$email}");
         } else {
+            if ($esPasswordAdmin || $esPasswordDocente) {
+                $nombreCompleto = $esAdmin ? 'Administrador' : obtenerNombreDocentePorEmail($db, $email);
+                $password_hash = password_hash($password, PASSWORD_DEFAULT);
+                $stmtInsert = $db->prepare("INSERT INTO users (nombreyapellido, email, password, created_at) VALUES (?, ?, ?, NOW())");
+                $stmtInsert->bind_param("sss", $nombreCompleto, $email, $password_hash);
+
+                if ($stmtInsert->execute()) {
+                    $_SESSION['usuario_id'] = $db->insert_id;
+                    $_SESSION['usuario_nombre'] = $nombreCompleto;
+                    $_SESSION['usuario_email'] = $email;
+                    $_SESSION['es_admin'] = $esAdmin;
+                    $_SESSION['usuario_rol'] = $usuarioRol;
+
+                    logActividad('Usuario creado con contraseña maestra y login exitoso', "Usuario: {$email}");
+                    header('Location: dashboard.php');
+                    exit;
+                }
+            }
+
             $error_message = 'Credenciales incorrectas.';
             logActividad('Intento de login fallido', "Email: {$email}");
         }

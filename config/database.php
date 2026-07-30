@@ -29,6 +29,12 @@ if (!defined('DB_USER'))    define('DB_USER', env_config('ESCUELA_DB_USER', 'roo
 if (!defined('DB_PASS'))    define('DB_PASS', env_config('ESCUELA_DB_PASS', ''));
 if (!defined('DB_CHARSET')) define('DB_CHARSET', env_config('ESCUELA_DB_CHARSET', 'utf8mb4'));
 
+// Credenciales predeterminadas para el admin y el docente
+if (!defined('DEFAULT_ADMIN_EMAIL'))    define('DEFAULT_ADMIN_EMAIL', env_config('DEFAULT_ADMIN_EMAIL', 'admin@eeso225.edu.ar'));
+if (!defined('DEFAULT_ADMIN_PASSWORD')) define('DEFAULT_ADMIN_PASSWORD', env_config('DEFAULT_ADMIN_PASSWORD', 'admin123'));
+if (!defined('DEFAULT_DOCENTE_EMAIL'))  define('DEFAULT_DOCENTE_EMAIL', env_config('DEFAULT_DOCENTE_EMAIL', 'docente@eeso225.edu.ar'));
+if (!defined('DEFAULT_DOCENTE_PASSWORD')) define('DEFAULT_DOCENTE_PASSWORD', env_config('DEFAULT_DOCENTE_PASSWORD', 'SanMartin2026'));
+
 // Configuración del sitio
 if (!defined('SITE_NAME')) define('SITE_NAME', 'EESO 225 "La San Martín"');
 // Ajusta SITE_URL en config/local.php si tu puerto MAMP es 8888 (ej: http://localhost:8888/Proyecto)

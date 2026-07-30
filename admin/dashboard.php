@@ -34,6 +34,7 @@ $info_sistema = obtenerInformacionSistema();
 
 // Obtener usuario actual
 $usuario_actual = obtenerUsuarioActual();
+$usuario_rol = $_SESSION['usuario_rol'] ?? 'admin';
 ?>
 
 <!-- Encabezado de la página -->
@@ -48,107 +49,124 @@ $usuario_actual = obtenerUsuarioActual();
     </div>
     <div class="text-end">
         <div class="small text-muted">Bienvenido, <strong><?= htmlspecialchars($usuario_actual['nombreyapellido']) ?></strong></div>
+        <div class="small text-muted">
+            Rol: <span class="badge bg-<?= $usuario_rol === 'admin' ? 'primary' : 'secondary' ?> text-white">
+                <?= $usuario_rol === 'admin' ? 'Administrador' : 'Docente' ?>
+            </span>
+        </div>
         <div class="small text-muted"><?= ESCUELA_NOMBRE ?></div>
     </div>
 </div>
 
-<!-- Tarjetas de estadísticas -->
-<div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="admin-card border-left-primary shadow h-100 py-2">
-            <div class="admin-card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Noticias Escolares
+<?php if ($usuario_rol === 'admin'): ?>
+    <!-- Tarjetas de estadísticas -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="admin-card border-left-primary shadow h-100 py-2">
+                <div class="admin-card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Noticias Escolares
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $estadisticas['noticias'] ?>
+                            </div>
+                            <div class="small text-muted">
+                                <?= $estadisticas['noticias_publicadas'] ?> publicadas
+                            </div>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $estadisticas['noticias'] ?>
-                        </div>
-                        <div class="small text-muted">
-                            <?= $estadisticas['noticias_publicadas'] ?> publicadas
+                        <div class="col-auto">
+                            <i class="bi bi-newspaper fa-2x text-gray-300"></i>
                         </div>
                     </div>
-                    <div class="col-auto">
-                        <i class="bi bi-newspaper fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="admin-card border-left-success shadow h-100 py-2">
+                <div class="admin-card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Personal Docente
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $estadisticas['personal'] ?>
+                            </div>
+                            <div class="small text-muted">
+                                <?= $estadisticas['personal_visible'] ?> visibles
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-people fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="admin-card border-left-warning shadow h-100 py-2">
+                <div class="admin-card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Logros Estudiantiles
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $estadisticas['logros'] ?>
+                            </div>
+                            <div class="small text-muted">
+                                <?= $estadisticas['logros_visibles'] ?> visibles
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-trophy fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="admin-card border-left-info shadow h-100 py-2">
+                <div class="admin-card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Total Contenido
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $estadisticas['noticias'] + $estadisticas['personal'] + $estadisticas['logros'] ?>
+                            </div>
+                            <div class="small text-muted">
+                                Elementos en total
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-collection fa-2x text-gray-300"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="admin-card border-left-success shadow h-100 py-2">
-            <div class="admin-card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Personal Docente
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $estadisticas['personal'] ?>
-                        </div>
-                        <div class="small text-muted">
-                            <?= $estadisticas['personal_visible'] ?> visibles
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-people fa-2x text-gray-300"></i>
-                    </div>
-                </div>
+    <!-- Contenido principal -->
+    <div class="row">
+<?php else: ?>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="admin-card shadow p-5 text-center">
+                <h4 class="text-primary mb-3">Bienvenido, <?= htmlspecialchars($usuario_actual['nombreyapellido']) ?></h4>
+                <p class="mb-4">Has ingresado como usuario docente. Las herramientas de administración estarán disponibles próximamente.</p>
+                <p class="text-muted">Por ahora no tienes opciones adicionales en esta sección.</p>
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="admin-card border-left-warning shadow h-100 py-2">
-            <div class="admin-card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Logros Estudiantiles
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $estadisticas['logros'] ?>
-                        </div>
-                        <div class="small text-muted">
-                            <?= $estadisticas['logros_visibles'] ?> visibles
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-trophy fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="admin-card border-left-info shadow h-100 py-2">
-            <div class="admin-card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            Total Contenido
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?= $estadisticas['noticias'] + $estadisticas['personal'] + $estadisticas['logros'] ?>
-                        </div>
-                        <div class="small text-muted">
-                            Elementos en total
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-collection fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Contenido principal -->
-<div class="row">
+<?php endif; ?>
     <!-- Actividad Reciente -->
     <div class="col-lg-8 mb-4">
         <div class="admin-card shadow mb-4">

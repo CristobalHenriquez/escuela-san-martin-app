@@ -153,6 +153,20 @@ docker compose --profile tools up -d phpmyadmin
 
 URL: http://localhost:8082
 
+#### Documentación de Secretaría
+
+La generación de actas y solicitudes de reincorporación está disponible en:
+`http://localhost:8081/secretaria/`
+
+El acceso utiliza una sesión protegida y la contraseña inicial de Secretaría es:
+`Secretaria2026@`
+
+Después de ingresar se puede elegir entre:
+- Crear acta institucional.
+- Crear solicitud de reincorporación.
+
+Los formularios generan un PDF A4 con identidad de la EESO 225 y no almacenan el documento en una carpeta pública: se descarga directamente desde el navegador. En producción se recomienda definir `SECRETARIA_PASSWORD_HASH` con un hash propio y no cambiar la contraseña desde el código.
+
 #### Base de datos local
 Docker crea automáticamente:
 - Base principal: `escuela_san_martin`

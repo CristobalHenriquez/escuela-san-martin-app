@@ -24,6 +24,7 @@ services:
       DB_TIMEZONE: -03:00
     volumes:
       - ./:/var/www/html
+      - app_vendor:/var/www/html/Kiosco/vendor
     depends_on:
       mysql:
         condition: service_healthy
@@ -74,3 +75,4 @@ services:
 
 volumes:
   mysql_data:
+  app_vendor:

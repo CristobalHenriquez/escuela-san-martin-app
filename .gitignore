@@ -10,3 +10,5 @@ node_modules/
 *.log
 backups-locales/
 CLAUDE.md
+tmp/
+output/pdf/*

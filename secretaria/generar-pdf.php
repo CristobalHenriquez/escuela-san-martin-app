@@ -37,6 +37,20 @@ function pdf_logo_data_uri(): string
     return is_file($path) ? 'data:image/jpeg;base64,' . base64_encode((string) file_get_contents($path)) : '';
 }
 
+function pdf_filename_part(string $value): string
+{
+    $value = trim($value);
+    if (function_exists('iconv')) {
+        $transliterated = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+        if ($transliterated !== false) {
+            $value = $transliterated;
+        }
+    }
+    $value = strtolower($value);
+    $value = preg_replace('/[^a-z0-9]+/', '-', $value) ?? '';
+    return trim($value, '-') ?: 'sin-nombre';
+}
+
 function pdf_header(string $subtitle): string
 {
     $logo = pdf_logo_data_uri();
@@ -57,7 +71,7 @@ if ($documento === 'acta') {
     $acuerdos = pdf_multiline('acuerdos_logrados');
     $observaciones = pdf_multiline('observaciones');
     $html = $css . pdf_header('Acta institucional') . '<h1>ACTA</h1><div class="document-subtitle">Registro institucional de reunión y acuerdos</div><table class="meta"><tr><td><span class="label">Acta N.º</span><br><span class="value">' . ($actaNro ?: '—') . '</span></td><td><span class="label">Ciclo lectivo</span><br><span class="value">' . $ciclo . '</span></td><td><span class="label">Fecha</span><br><span class="value">' . secretaria_date_display($fecha) . '</span></td></tr><tr><td colspan="2"><span class="label">Nombre del alumno/a</span><br><span class="value">' . $estudiante . '</span></td><td><span class="label">Curso / división</span><br><span class="value">' . $curso . '</span></td></tr><tr><td colspan="2"><span class="label">Concepto</span><br><span class="value">' . $concepto . '</span></td><td><span class="label">Adulto responsable</span><br><span class="value">' . $adulto . '</span></td></tr><tr><td colspan="2"><span class="label">Docente / administrativo</span><br><span class="value">' . ($docente ?: '—') . '</span></td><td><span class="label">Documento</span><br><span class="value">Acta institucional</span></td></tr></table><div class="section">Motivo</div><div class="text-box">' . $motivo . '</div><div class="section">Acuerdos logrados</div><div class="text-box">' . ($acuerdos ?: 'Sin acuerdos consignados.') . '</div><div class="section">Observaciones / aclaraciones</div><div class="text-box">' . ($observaciones ?: 'Sin observaciones.') . '</div><table class="signature-table"><tr><td><div class="signature-line">Firma directivo/a o docente</div></td><td><div class="signature-line">Firma adulto responsable</div></td><td><div class="signature-line">Firma estudiante</div></td></tr></table><div class="footer-note">Documento generado por el Área Secretaría · EESO N° 225 General José de San Martín</div>';
-    $filename = 'acta-' . ($actaNro ?: date('Ymd')) . '.pdf';
+    $filename = 'acta-' . ($actaNro ? pdf_filename_part($actaNro) : date('Ymd')) . '-' . pdf_filename_part($estudiante) . '.pdf';
 } elseif ($documento === 'reincorporacion') {
     $anio = pdf_value('anio_div', true);
     $inasistencias = pdf_value('inasistencias', true);
@@ -68,7 +82,7 @@ if ($documento === 'acta') {
     $fechaConstaDisplay = $fechaConsta ? secretaria_date_display($fechaConsta) : '—';
     $motivo = pdf_multiline('motivo', true);
     $html = $css . pdf_header('Solicitud escolar') . '<h1>SOLICITUD DE REINCORPORACIÓN</h1><div class="document-subtitle">Presentación ante la Secretaría de la institución</div><div class="place-date">Pérez, ' . secretaria_date_display($fecha) . '</div><div class="declaration">En presencia del/de la Sr./a. <strong>' . $adulto . '</strong>, en carácter de <strong>' . $vinculo . '</strong>, adulto responsable del/de la estudiante <strong>' . $estudiante . '</strong>, correspondiente a <strong>' . $anio . '</strong>, se deja constancia de que registra <strong>' . $inasistencias . '</strong> inasistencias' . ($fechaConsta ? ' desde el ' . $fechaConstaDisplay : '') . ', y se solicita su reincorporación.</div><div class="section">Motivo de la solicitud</div><div class="text-box">' . $motivo . '</div><table class="signature-table request-signatures"><tr><td><div class="signature-line">Firma padre, madre, tutor/a o adulto responsable</div></td><td><div class="signature-line">Aclaración y DNI</div></td></tr></table><div class="footer-note">Documento generado por el Área Secretaría · EESO N° 225 General José de San Martín</div>';
-    $filename = 'solicitud-reincorporacion-' . date('Ymd') . '.pdf';
+    $filename = 'solicitud-reincorporacion-' . pdf_filename_part($estudiante) . '-' . date('Ymd') . '.pdf';
 } else {
     http_response_code(422);
     exit('Tipo de documento no válido.');

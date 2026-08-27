@@ -1,0 +1,20 @@
+/* Presentacion uniforme para perfiles docentes. */
+#personal-docente { background: #fbfafc; }
+#personal-docente .section-header h1 { letter-spacing: 0; }
+#personal-docente .info-box { background: #f5f0f8 !important; border-radius: 8px !important; }
+#personal-docente .team-card { border: 1px solid #e6e0ea; border-radius: 8px; box-shadow: 0 5px 16px rgba(49, 35, 58, .07); }
+#personal-docente .team-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(106, 27, 154, .14); }
+#personal-docente .team-card-img { height: 280px; padding: 1rem; background: #f7f5fa; }
+#personal-docente .team-card-img img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+#personal-docente .team-card:hover .team-card-img img { transform: scale(1.02); }
+#personal-docente .team-card-body { background: #fff; }
+#personal-docente .team-card-name { letter-spacing: 0; }
+#personal-docente .modal-content { border: 1px solid #e6e0ea; border-radius: 8px; overflow: hidden; }
+#personal-docente .modal-body > .row > .col-md-4 > img { width: 100%; max-height: 300px; object-fit: contain; object-position: center; padding: 1rem; border: 1px solid #e6e0ea; border-radius: 8px !important; background: #f7f5fa; }
+@media (max-width: 767.98px) {
+    #personal-docente .team-card-img { height: 245px; }
+    #personal-docente .modal-body { padding: 1rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    #personal-docente .team-card, #personal-docente .team-card-img img { transition: none !important; }
+}

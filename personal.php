@@ -6,6 +6,8 @@ $page_title = ESCUELA_NOMBRE_CORTO . ' - Personal Docente';
 $page_description = 'Conocé a todo nuestro equipo docente';
 require_once __DIR__ . '/header.php';
 
+?><link rel="stylesheet" href="assets/css/personal.css"><?php
+
 // Función helper para truncar texto
 if (!function_exists('truncarTexto')) {
     function truncarTexto($texto, $limite = 120) {
@@ -154,7 +156,7 @@ $materias = $materiasStmt->fetch_all(MYSQLI_ASSOC);
                     <div class="team-card h-100" data-bs-toggle="modal" data-bs-target="#modalPersonalFull<?= $miembro['id'] ?>" role="button">
                         <div class="team-card-img">
                             <img src="<?= !empty($miembro['foto']) ? htmlspecialchars($miembro['foto']) : 'uploads/personal/Default_Profes.png' ?>" 
-                                 class="img-fluid"
+                                class="img-fluid team-profile-photo"
                                  alt="Foto de <?= htmlspecialchars($miembro['nombre']) ?> <?= htmlspecialchars($miembro['apellido']) ?>">
                         </div>
                         
@@ -191,7 +193,7 @@ $materias = $materiasStmt->fetch_all(MYSQLI_ASSOC);
                             <div class="row">
                                 <div class="col-md-4 text-center mb-4 mb-md-0">
                                     <img src="<?= !empty($miembro['foto']) ? htmlspecialchars($miembro['foto']) : 'uploads/personal/Default_Profes.png' ?>" 
-                                         class="img-fluid rounded-3 shadow-sm mb-3"
+                                         class="img-fluid rounded-3 shadow-sm mb-3 team-profile-photo"
                                          alt="Foto de <?= htmlspecialchars($miembro['nombre']) ?> <?= htmlspecialchars($miembro['apellido']) ?>">
                                     
                                     <?php if (!empty($miembro['linkedin'])): ?>

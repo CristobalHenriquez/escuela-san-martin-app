@@ -57,6 +57,12 @@ if (!in_array($categoria, $categorias_validas)) {
 // Procesar imagen si se ha subido
 $imagen_path = '';
 if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+    if ($_FILES['imagen']['size'] > 10 * 1024 * 1024) {
+        $_SESSION['error_message'] = "La imagen no puede superar los 10 MB.";
+        header('Location: ../noticias.php?error=imagen_grande');
+        exit;
+    }
+
     // Validar tipo de imagen
     $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     $file_type = mime_content_type($_FILES['imagen']['tmp_name']);
@@ -106,4 +112,3 @@ try {
 }
 
 exit;
-

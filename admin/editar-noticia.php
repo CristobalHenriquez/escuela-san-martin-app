@@ -6,6 +6,11 @@ $admin_page_description = 'Formulario para editar una noticia existente';
 require_once '../includes/conexion.php';
 require_once 'config.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+verificarAutenticacion();
+
 // Verificar si se proporcionó un ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: noticias.php?error=id_invalido');
@@ -41,6 +46,9 @@ if ($noticia['fecha_publicacion'] == '0000-00-00' || empty($noticia['fecha_publi
 
 // Procesar el formulario cuando se envía
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !is_string($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+        $error = 'Error de seguridad: token CSRF inválido.';
+    }
     $titulo = trim($_POST['titulo'] ?? '');
     $contenido = $_POST['contenido'] ?? '';
     $categoria = $_POST['categoria'] ?? 'noticia';
@@ -49,10 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha = !empty($_POST['fecha_publicacion']) ? $_POST['fecha_publicacion'] : date('Y-m-d');
     
     // Validación básica
-    if (empty($titulo)) {
+    if (isset($error)) {
+        // No continuar con el procesamiento si falla la protección CSRF.
+    } elseif (empty($titulo)) {
         $error = "El título es obligatorio";
     } elseif (empty($contenido)) {
         $error = "El contenido es obligatorio";
+    } elseif (!in_array($categoria, ['noticia', 'evento', 'curso'], true)) {
+        $error = "La categoría seleccionada no es válida";
     } else {
         // Mantener la imagen actual por defecto
         $imagen = $noticia['imagen'];
@@ -69,15 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $webp_path = $upload_dir . '/' . $webp_filename;
             $imagen = "uploads/noticias/" . $webp_filename;
             
-            // Convertir a WebP (función simplificada)
+            // Validar y normalizar la imagen igual que en el alta.
             $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
             $file_type = mime_content_type($_FILES['imagen']['tmp_name']);
             
-            if (in_array($file_type, $allowed_types)) {
-                if (move_uploaded_file($_FILES['imagen']['tmp_name'], $webp_path)) {
-                    // Imagen subida exitosamente
-                } else {
-                    $error = "Error al subir la imagen";
+            if ($_FILES['imagen']['size'] > 10 * 1024 * 1024) {
+                $error = "La imagen no puede superar los 10 MB";
+            } elseif (in_array($file_type, $allowed_types, true)) {
+                if (!redimensionarImagen($_FILES['imagen']['tmp_name'], $webp_path, IMAGEN_NOTICIA_ANCHO, IMAGEN_NOTICIA_ALTO)) {
+                    $error = "Error al procesar la imagen";
                 }
             } else {
                 $error = "Formato de imagen no válido";
@@ -87,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!isset($error)) {
             // Actualizar en la base de datos
             $stmt = $db->prepare("UPDATE posts SET titulo = ?, contenido = ?, imagen = ?, categoria = ?, visible = ?, orden = ?, fecha_publicacion = ? WHERE id = ?");
-            $stmt->bind_param("ssssiisd", $titulo, $contenido, $imagen, $categoria, $visible, $orden, $fecha, $id);
+            $stmt->bind_param("ssssiisi", $titulo, $contenido, $imagen, $categoria, $visible, $orden, $fecha, $id);
             
             if ($stmt->execute()) {
                 header('Location: noticias.php?success=actualizada');
@@ -99,11 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Iniciar sesión y generar token CSRF si hace falta
-if (!isset($_SESSION)) {
-    session_start();
-}
-
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(16));
 }
@@ -111,6 +118,8 @@ if (!isset($_SESSION['csrf_token'])) {
 // Incluimos el encabezado del admin
 include_once 'includes/head.php';
 ?>
+
+<link rel="stylesheet" href="../assets/css/admin-news.css">
 
 <!-- SweetAlert2 CSS y JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
@@ -147,26 +156,27 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <!-- Formulario -->
-<div class="admin-card">
+<div class="admin-card news-editor-card">
     <div class="admin-card-body">
         <form action="editar-noticia.php?id=<?= $id ?>" method="POST" enctype="multipart/form-data" id="formEditarNoticia">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
             <div class="row">
                 <div class="col-md-8">
                     <div class="mb-4">
-                        <label class="form-label fw-medium">Título <span class="text-danger">*</span></label>
-                        <input type="text" name="titulo" class="form-control" value="<?= htmlspecialchars($noticia['titulo']) ?>" required>
+                        <label for="titulo" class="form-label fw-medium">Título <span class="text-danger">*</span></label>
+                        <input type="text" name="titulo" id="titulo" class="form-control" value="<?= htmlspecialchars($noticia['titulo']) ?>" maxlength="180" required>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
+                        <label for="contenido" class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
                         <!-- Editor TinyMCE -->
-                        <textarea id="contenido" name="contenido" class="tinymce-editor"><?= htmlspecialchars($noticia['contenido']) ?></textarea>
+                        <textarea id="contenido" name="contenido" class="tinymce-editor" required aria-describedby="contenidoAyuda"><?= htmlspecialchars($noticia['contenido']) ?></textarea>
+                        <div id="contenidoAyuda" class="form-text mt-2">Podés agregar títulos, listas, enlaces e imágenes dentro del texto.</div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="admin-card mb-4">
+                    <div class="admin-card news-editor-panel mb-4">
                         <div class="admin-card-header">
                             <h6 class="admin-card-title mb-0">Configuración</h6>
                         </div>
@@ -192,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
 
-                    <div class="admin-card mb-4">
+                    <div class="admin-card news-editor-panel mb-4">
                         <div class="admin-card-header">
                             <h6 class="admin-card-title mb-0">Imagen destacada</h6>
                         </div>
@@ -204,11 +214,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             <?php endif; ?>
                             <div class="mb-3">
-                                <input type="file" name="imagen" class="form-control" id="imageInput" accept="image/*">
-                                <div class="form-text">Formatos permitidos: JPG, PNG, GIF, WEBP. Se convertirán automáticamente a WebP.</div>
+                                <input type="file" name="imagen" class="form-control" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp">
+                                <div class="form-text">JPG, PNG, GIF o WEBP. Máximo recomendado: 10 MB. Se convertirá a WEBP.</div>
                             </div>
                             <div id="imagePreview" class="mt-3 text-center d-none">
-                                <img src="#" alt="Vista previa" class="img-fluid img-thumbnail" style="max-height: 200px;">
+                                    <img src="#" alt="Vista previa de la imagen seleccionada" class="img-fluid image-preview-frame">
                             </div>
                         </div>
                     </div>
@@ -270,11 +280,18 @@ document.addEventListener('DOMContentLoaded', function() {
         `,
         
         placeholder: 'Escribe aquí el contenido de la noticia...'
+    }).catch(function(error) {
+        console.error('No se pudo iniciar el editor:', error);
     });
     
     // Script para vista previa de imagen
     document.getElementById('imageInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
+        if (file && file.size > 10 * 1024 * 1024) {
+            e.target.value = '';
+            Swal.fire({ icon: 'error', title: 'Imagen demasiado grande', text: 'Elegí una imagen de hasta 10 MB.' });
+            return;
+        }
         if (file) {
             const reader = new FileReader();
             const preview = document.getElementById('imagePreview');
@@ -294,8 +311,15 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         // Sincronizar contenido de TinyMCE antes de enviar
-        if (typeof tinymce !== 'undefined' && tinymce.activeEditor) {
-            tinymce.activeEditor.save();
+        if (typeof tinymce !== 'undefined') {
+            tinymce.triggerSave();
+        }
+
+        const contenido = document.getElementById('contenido').value.replace(/<[^>]*>/g, '').trim();
+        if (!this.checkValidity() || !contenido) {
+            this.classList.add('was-validated');
+            Swal.fire({ icon: 'warning', title: 'Faltan datos', text: 'Completá el título y el contenido de la noticia.' });
+            return;
         }
         
         Swal.fire({

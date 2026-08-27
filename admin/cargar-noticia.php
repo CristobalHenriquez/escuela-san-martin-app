@@ -39,6 +39,8 @@ $categoria = 'noticia';
 include_once 'includes/head.php';
 ?>
 
+<link rel="stylesheet" href="../assets/css/admin-news.css">
+
 <!-- SweetAlert2 CSS y JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
@@ -61,26 +63,27 @@ include_once 'includes/head.php';
 </div>
 
 <!-- Formulario -->
-<div class="admin-card">
+<div class="admin-card news-editor-card">
   <div class="admin-card-body">
     <form action="controllers/cargar-noticia.php" method="POST" enctype="multipart/form-data" id="formCrearNoticia">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
       <div class="row">
         <div class="col-md-8">
           <div class="mb-4">
-            <label class="form-label fw-medium">Título <span class="text-danger">*</span></label>
-            <input type="text" name="titulo" class="form-control" value="<?= htmlspecialchars($titulo) ?>" required>
+            <label for="titulo" class="form-label fw-medium">Título <span class="text-danger">*</span></label>
+            <input type="text" name="titulo" id="titulo" class="form-control" value="<?= htmlspecialchars($titulo) ?>" maxlength="180" required>
           </div>
 
           <div class="mb-4">
-            <label class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
+            <label for="contenido" class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
             <!-- Editor TinyMCE -->
-            <textarea id="contenido" name="contenido" class="tinymce-editor"><?= htmlspecialchars($contenido) ?></textarea>
+            <textarea id="contenido" name="contenido" class="tinymce-editor" required aria-describedby="contenidoAyuda"><?= htmlspecialchars($contenido) ?></textarea>
+            <div id="contenidoAyuda" class="form-text mt-2">Podés agregar títulos, listas, enlaces e imágenes dentro del texto.</div>
           </div>
         </div>
 
         <div class="col-md-4">
-          <div class="admin-card mb-4">
+          <div class="admin-card news-editor-panel mb-4">
             <div class="admin-card-header">
               <h6 class="admin-card-title mb-0">Configuración</h6>
             </div>
@@ -106,17 +109,17 @@ include_once 'includes/head.php';
             </div>
           </div>
 
-          <div class="admin-card mb-4">
+          <div class="admin-card news-editor-panel mb-4">
             <div class="admin-card-header">
               <h6 class="admin-card-title mb-0">Imagen destacada</h6>
             </div>
             <div class="admin-card-body">
               <div class="mb-3">
-                <input type="file" name="imagen" class="form-control" id="imageInput" accept="image/*">
-                <div class="form-text">Formatos permitidos: JPG, PNG, GIF, WEBP. Se convertirán automáticamente a WebP.</div>
+                <input type="file" name="imagen" class="form-control" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp">
+                <div class="form-text">JPG, PNG, GIF o WEBP. Máximo recomendado: 10 MB. Se convertirá a WEBP.</div>
               </div>
               <div id="imagePreview" class="mt-3 text-center d-none">
-                <img src="#" alt="Vista previa" class="img-fluid img-thumbnail" style="max-height: 200px;">
+                <img src="#" alt="Vista previa de la imagen seleccionada" class="img-fluid image-preview-frame">
               </div>
             </div>
           </div>
@@ -178,6 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
         `,
         
         placeholder: 'Escribe aquí el contenido de la noticia...'
+    }).catch(function(error) {
+      console.error('No se pudo iniciar el editor:', error);
     });
 });
 </script>
@@ -186,6 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
   document.getElementById('imageInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
+    if (file && file.size > 10 * 1024 * 1024) {
+      e.target.value = '';
+      Swal.fire({ icon: 'error', title: 'Imagen demasiado grande', text: 'Elegí una imagen de hasta 10 MB.' });
+      return;
+    }
     if (file) {
       const reader = new FileReader();
       const preview = document.getElementById('imagePreview');
@@ -205,8 +215,15 @@ document.addEventListener('DOMContentLoaded', function() {
     e.preventDefault();
 
     // Sincronizar contenido de TinyMCE antes de enviar
-    if (typeof tinymce !== 'undefined' && tinymce.activeEditor) {
-        tinymce.activeEditor.save();
+    if (typeof tinymce !== 'undefined') {
+        tinymce.triggerSave();
+    }
+
+    const contenido = document.getElementById('contenido').value.replace(/<[^>]*>/g, '').trim();
+    if (!this.checkValidity() || !contenido) {
+        this.classList.add('was-validated');
+        Swal.fire({ icon: 'warning', title: 'Faltan datos', text: 'Completá el título y el contenido de la noticia.' });
+        return;
     }
 
     Swal.fire({

@@ -512,6 +512,8 @@ $relacionadas = noticiasRelacionadas($pdo, $post['categoria'], $post['id']);
 }
 </style>
 
+<link rel="stylesheet" href="assets/css/noticia.css">
+
 <!-- Header de la noticia -->
 <section class="noticia-header">
     <div class="container">

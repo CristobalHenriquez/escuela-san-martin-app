@@ -225,6 +225,35 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
         
         .form-floating {
             margin-bottom: 20px;
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            right: 0.75rem;
+            display: grid;
+            width: 2.25rem;
+            height: 2.25rem;
+            padding: 0;
+            place-items: center;
+            color: var(--color-violeta);
+            background: transparent;
+            border: 0;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .password-toggle:hover,
+        .password-toggle:focus-visible {
+            color: #4A126E;
+            background: rgba(106, 27, 154, 0.09);
+            outline: none;
+        }
+
+        .password-toggle:focus-visible {
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.2);
         }
         
         .form-floating .form-control {
@@ -441,8 +470,11 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
                         </div>
                         
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                            <input type="password" class="form-control pe-5" id="password" name="password" placeholder="Contraseña" required autocomplete="current-password">
                             <label for="password"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
+                            <button type="button" class="password-toggle" id="password-toggle" aria-label="Mostrar contraseña" aria-pressed="false" title="Mostrar contraseña">
+                                <i class="bi bi-eye" aria-hidden="true"></i>
+                            </button>
                         </div>
                         
                         <button type="submit" class="btn btn-login">
@@ -469,6 +501,20 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
     <script>
         // Mostrar mensajes con SweetAlert2 si es necesario
         document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const passwordToggle = document.getElementById('password-toggle');
+
+            if (passwordInput && passwordToggle) {
+                passwordToggle.addEventListener('click', function() {
+                    const isVisible = passwordInput.type === 'text';
+                    passwordInput.type = isVisible ? 'password' : 'text';
+                    passwordToggle.setAttribute('aria-pressed', String(!isVisible));
+                    passwordToggle.setAttribute('aria-label', isVisible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                    passwordToggle.setAttribute('title', isVisible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                    passwordToggle.querySelector('i').className = isVisible ? 'bi bi-eye' : 'bi bi-eye-slash';
+                });
+            }
+
             <?php if (!empty($error_message)): ?>
                 Swal.fire({
                     icon: 'error',
@@ -490,4 +536,3 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
     </script>
 </body>
 </html>
-

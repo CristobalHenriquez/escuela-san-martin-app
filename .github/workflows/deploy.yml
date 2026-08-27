@@ -78,5 +78,6 @@ jobs:
         run: |
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT }}" \
+            --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
             --exclude-from=deploy/rsync-excludes.txt \
             ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:~/${{ secrets.DEPLOY_PATH }}/

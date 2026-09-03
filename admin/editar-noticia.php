@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="mb-4">
                         <label for="contenido" class="form-label fw-medium">Contenido <span class="text-danger">*</span></label>
                         <!-- Editor TinyMCE -->
-                        <textarea id="contenido" name="contenido" class="tinymce-editor" required aria-describedby="contenidoAyuda"><?= htmlspecialchars($noticia['contenido']) ?></textarea>
+                        <textarea id="contenido" name="contenido" class="tinymce-editor" aria-required="true" aria-describedby="contenidoAyuda"><?= htmlspecialchars($noticia['contenido']) ?></textarea>
                         <div id="contenidoAyuda" class="form-text mt-2">Podés agregar títulos, listas, enlaces e imágenes dentro del texto.</div>
                     </div>
                 </div>

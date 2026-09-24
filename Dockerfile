@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /var/www/html
 
-<<<<<<< HEAD
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

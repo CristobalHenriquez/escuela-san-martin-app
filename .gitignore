@@ -12,3 +12,6 @@ backups-locales/
 CLAUDE.md
 tmp/
 output/pdf/*
+
+# Material de difusion (MAE), no versionado
+mae/

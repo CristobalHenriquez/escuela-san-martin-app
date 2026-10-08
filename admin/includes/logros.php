@@ -1,6 +1,6 @@
 <?php
 /**
- * Página de Logros Estudiantiles - EESO 225 "La San Martín"
+ * Página de Logros Estudiantiles - EESO 225 San Martín
  * 
  * Muestra un listado paginado de todos los logros estudiantiles visibles.
  */

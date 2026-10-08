@@ -9,7 +9,7 @@ secretaria_require_auth();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Documentación | Secretaría</title>
-    <link rel="icon" href="../assets/images/logo/logo-escuela.jpg" type="image/jpeg">
+    <link rel="icon" href="../assets/images/logo/favicon.svg" type="image/svg+xml">
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@ secretaria_require_auth();
     <main class="workspace-shell">
         <header class="workspace-header">
             <div class="brand-line">
-                <img src="../assets/images/logo/logo-escuela.jpg" alt="Logo EESO 225">
+                <img src="../assets/images/logo/logo-escuela-icono.svg" alt="Logo EESO 225">
                 <div>
                     <span class="eyebrow">E.E.S.O. N° 225 General José de San Martín</span>
                     <h1>Documentación de Secretaría</h1>
@@ -47,7 +47,7 @@ secretaria_require_auth();
             </a>
         </section>
 
-        <footer class="workspace-footer">Área Secretaría · EESO 225 “La San Martín” · Pérez, Santa Fe</footer>
+        <footer class="workspace-footer">Área Secretaría · EESO 225 San Martín · Pérez, Santa Fe</footer>
     </main>
 </body>
 </html>

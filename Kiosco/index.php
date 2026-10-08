@@ -509,7 +509,7 @@ if ($turno && isset($turno['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS La San Martin 5°C</title>
+    <title>POS San Martín 5°C</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Main CSS File -->
@@ -551,7 +551,7 @@ if ($turno && isset($turno['id'])) {
 
         <?php if (!$turno): ?>
         <div class="container mt-4">
-            <h2 class="mb-4 text-center"><i class="fas fa-cash-register"></i> Bienvenido a POS La San Martin 5°C</h2>
+            <h2 class="mb-4 text-center"><i class="fas fa-cash-register"></i> Bienvenido a POS San Martín 5°C</h2>
             <div class="row justify-content-center mb-4">
                 <div class="col-12 col-md-6 mb-3">
                     <form method="post" class="text-center">

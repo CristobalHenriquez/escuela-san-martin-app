@@ -1,7 +1,7 @@
 <?php
 /**
  * Sección de Contacto - Frontend
- * EESO 225 "La San Martín"
+ * EESO 225 San Martín
  */
 ?>
 
@@ -20,7 +20,7 @@
                             <i class="bi bi-envelope-fill text-primary me-3 mt-1" style="font-size: 1.5rem; color: var(--color-violeta) !important;"></i>
                             <div>
                                 <p class="mb-0" style="text-align: justify; line-height: 1.6; color: #444;">
-                                    Mantené contacto con la E.E.S.O. Nº 225 "La San Martín". Estamos disponibles para responder tus consultas sobre inscripciones, programas educativos, actividades institucionales y cualquier información que necesites. Tu comunicación es importante para nosotros.
+                                    Mantené contacto con la E.E.S.O. Nº 225 General José de San Martín. Estamos disponibles para responder tus consultas sobre inscripciones, programas educativos, actividades institucionales y cualquier información que necesites. Tu comunicación es importante para nosotros.
                                 </p>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade"
-                            title="Ubicación de EESO 225 La San Martín">
+                            title="Ubicación de EESO 225 San Martín">
                         </iframe>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                 <div class="row mb-4">
                     <div class="col-12 text-center">
                         <div class="logo-section">
-                            <img src="assets/images/escuela_footer.png" 
+                            <img src="assets/images/logo/logo-escuela.svg" 
                                  alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" 
                                  class="img-fluid"
                                  style="max-width: 280px; height: auto; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); transition: all 0.3s ease; filter: brightness(1.05);">

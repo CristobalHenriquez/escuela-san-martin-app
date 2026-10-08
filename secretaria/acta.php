@@ -9,7 +9,7 @@ secretaria_require_auth();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crear acta | Secretaría</title>
-    <link rel="icon" href="../assets/images/logo/logo-escuela.jpg" type="image/jpeg">
+    <link rel="icon" href="../assets/images/logo/favicon.svg" type="image/svg+xml">
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@ secretaria_require_auth();
 <main class="form-shell">
     <header class="form-header">
         <div class="brand-line">
-            <img src="../assets/images/logo/logo-escuela.jpg" alt="Logo EESO 225">
+            <img src="../assets/images/logo/logo-escuela-icono.svg" alt="Logo EESO 225">
             <div><span class="eyebrow">Secretaría · Documento institucional</span><h1>Crear acta</h1></div>
         </div>
         <a class="btn btn-outline-secondary" href="panel.php"><i class="bi bi-arrow-left me-2"></i>Volver</a>

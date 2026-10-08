@@ -1,6 +1,6 @@
 <?php
 // Página para editar una noticia existente
-$admin_page_title = 'Editar Noticia | EESO 225 "La San Martín"';
+$admin_page_title = 'Editar Noticia | EESO 225 San Martín';
 $admin_page_description = 'Formulario para editar una noticia existente';
 
 require_once '../includes/conexion.php';

@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuración General - EESO 225 "La San Martín"
+ * Configuración General - EESO 225 San Martín
  * Archivo de configuración principal del sitio
  */
 
@@ -30,7 +30,7 @@ setlocale(LC_TIME, 'es_AR.UTF-8', 'es_ES.UTF-8', 'spanish');
 
 // Configuración de la escuela
 define('ESCUELA_NOMBRE', 'E.E.S. ORIENTADA NRO 225 GENERAL JOSÉ DE SAN MARTÍN');
-define('ESCUELA_NOMBRE_CORTO', 'EESO 225 "La San Martín"');
+define('ESCUELA_NOMBRE_CORTO', 'EESO 225 San Martín');
 define('ESCUELA_DIRECCION', 'Sarmiento 949');
 define('ESCUELA_LOCALIDAD', 'Pérez');
 define('ESCUELA_PROVINCIA', 'Santa Fe');

@@ -1,6 +1,6 @@
 <?php
 // Configuración de la página
-$admin_page_title = 'Gestión de Logros Estudiantiles | EESO 225 "La San Martín"';
+$admin_page_title = 'Gestión de Logros Estudiantiles | EESO 225 San Martín';
 $admin_page_description = 'Administra los logros y reconocimientos de los estudiantes';
 
 // Iniciar sesión si no está iniciada

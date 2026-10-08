@@ -47,7 +47,7 @@ $sheet = $spreadsheet->getActiveSheet();
 $row = 1;
 
 // Título principal
-$sheet->setCellValue('A'.$row, 'Control de Capital - POS La San Martin 5°C');
+$sheet->setCellValue('A'.$row, 'Control de Capital - POS San Martín 5°C');
 $sheet->mergeCells('A'.$row.':F'.$row);
 $sheet->getStyle('A'.$row)->getFont()->setBold(true)->setSize(16);
 $sheet->getStyle('A'.$row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuración de Base de Datos - EESO 225 "La San Martín"
+ * Configuración de Base de Datos - EESO 225 San Martín
  * Archivo de conexión a la base de datos
  */
 
@@ -30,7 +30,7 @@ if (!defined('DB_PASS'))    define('DB_PASS', env_config('ESCUELA_DB_PASS', ''))
 if (!defined('DB_CHARSET')) define('DB_CHARSET', env_config('ESCUELA_DB_CHARSET', 'utf8mb4'));
 
 // Configuración del sitio
-if (!defined('SITE_NAME')) define('SITE_NAME', 'EESO 225 "La San Martín"');
+if (!defined('SITE_NAME')) define('SITE_NAME', 'EESO 225 San Martín');
 // Ajusta SITE_URL en config/local.php si tu puerto MAMP es 8888 (ej: http://localhost:8888/Proyecto)
 if (!defined('SITE_URL'))  define('SITE_URL', env_config('ESCUELA_SITE_URL', 'http://localhost/proyecto-web-escuela'));
 if (!defined('ADMIN_URL')) define('ADMIN_URL', SITE_URL . '/admin');

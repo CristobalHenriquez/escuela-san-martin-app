@@ -1,7 +1,7 @@
 <?php
 /**
  * Configuración de Email para Formulario de Contacto
- * EESO 225 "La San Martín"
+ * EESO 225 San Martín
  * 
  * INSTRUCCIONES PARA CONFIGURAR EL EMAIL:
  * 

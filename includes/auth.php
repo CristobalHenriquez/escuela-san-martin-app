@@ -1,6 +1,6 @@
 <?php
 /**
- * Archivo de Autenticación - EESO 225 "La San Martín"
+ * Archivo de Autenticación - EESO 225 San Martín
  * Funciones para manejo de autenticación del admin
  */
 

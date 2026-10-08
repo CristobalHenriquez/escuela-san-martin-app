@@ -1,4 +1,4 @@
-/* Estilos públicos - EESO 225 "La San Martín" */
+/* Estilos públicos - EESO 225 San Martín */
 
 :root {
     --color-violeta: #6A1B9A;
@@ -295,7 +295,7 @@ footer {
     }
 
     .navbar .navbar-brand img {
-        height: 40px
+        height: 52px
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Script de verificación de tabla users - EESO 225 "La San Martín"
+ * Script de verificación de tabla users - EESO 225 San Martín
  * Verifica y crea la estructura necesaria para usuarios administradores
  */
 

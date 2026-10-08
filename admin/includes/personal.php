@@ -1,6 +1,6 @@
 <?php
 /**
- * Página de Personal Docente - EESO 225 "La San Martín"
+ * Página de Personal Docente - EESO 225 San Martín
  * 
  * Muestra un listado paginado de todo el personal docente visible.
  */

@@ -560,7 +560,7 @@ $relacionadas = noticiasRelacionadas($pdo, $post['categoria'], $post['id']);
                 <div class="noticia-institucional mb-3">
                     <p class="text-muted" style="font-style: italic; font-size: 0.95rem;">
                         <i class="bi bi-building me-1" style="color: var(--color-violeta);"></i>
-                        E.E.S.O. Nº 225 "La San Martín" - Compartiendo nuestras novedades con la comunidad educativa
+                        E.E.S.O. Nº 225 General José de San Martín - Compartiendo nuestras novedades con la comunidad educativa
                     </p>
                 </div>
                 

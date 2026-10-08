@@ -28,10 +28,10 @@
                     
                     <!-- Logo de la Escuela -->
                     <div class="logo-footer mt-4">
-                        <img src="../assets/images/logo/logo-escuela.jpg" 
+                        <img src="../assets/images/logo/logo-escuela-negativo.svg" 
                              alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" 
                              class="img-fluid"
-                             style="max-width: 120px; height: auto; border-radius: 8px; opacity: 0.9;">
+                             style="max-width: 180px; height: auto;">
                     </div>
                 </div>
 

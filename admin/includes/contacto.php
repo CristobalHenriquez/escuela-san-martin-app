@@ -1,6 +1,6 @@
 <?php
 /**
- * Página de Contacto - EESO 225 "La San Martín"
+ * Página de Contacto - EESO 225 San Martín
  * 
  * Muestra la información de contacto y un formulario.
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Script de actualización de tabla users - EESO 225 "La San Martín"
+ * Script de actualización de tabla users - EESO 225 San Martín
  * Agrega la columna 'activo' si no existe
  */
 

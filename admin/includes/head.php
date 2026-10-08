@@ -6,8 +6,8 @@ require_once '../includes/auth.php';
 verificarAutenticacion();
 
 // Configuración por defecto
-$admin_page_title = $admin_page_title ?? 'Panel de Administración | EESO 225 "La San Martín"';
-$admin_page_description = $admin_page_description ?? 'Panel de administración para gestionar el contenido de EESO 225 "La San Martín"';
+$admin_page_title = $admin_page_title ?? 'Panel de Administración | EESO 225 San Martín';
+$admin_page_description = $admin_page_description ?? 'Panel de administración para gestionar el contenido de EESO 225 San Martín';
 
 // Determinar la página actual para resaltar el menú correspondiente
 $current_page = basename($_SERVER['PHP_SELF']);
@@ -24,11 +24,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <title><?= $admin_page_title ?></title>
     <meta name="description" content="<?= $admin_page_description ?>">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="author" content="EESO 225 La San Martín">
+    <meta name="author" content="EESO 225 San Martín">
 
     <!-- Favicons -->
-    <link href="../assets/images/logo/logo-escuela.jpg" rel="icon">
-    <link href="../assets/images/logo/logo-escuela.jpg" rel="apple-touch-icon">
+    <link href="../assets/images/logo/favicon.svg" rel="icon" type="image/svg+xml">
+    <link href="../assets/images/logo/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -212,8 +212,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="dashboard.php">
-                <img src="../assets/images/logo/logo-escuela.jpg" alt="EESO 225 La San Martín" class="logo-escuela-color" style="height: 50px;">
-                <span class="ms-2 fw-bold">EESO 225 "La San Martín"</span>
+                <img src="../assets/images/logo/logo-escuela-negativo.svg" alt="EESO 225 San Martín" style="height: 52px;">
             </a>
 
             <!-- Menú de navegación -->

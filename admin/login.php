@@ -1,5 +1,5 @@
 <?php
-// Página de Login - EESO 225 "La San Martín"
+// Página de Login - EESO 225 San Martín
 require_once '../includes/conexion.php';
 require_once '../includes/auth.php';
 
@@ -74,10 +74,10 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión | EESO 225 "La San Martín"</title>
+    <title>Iniciar Sesión | EESO 225 San Martín</title>
     
     <!-- Favicon -->
-    <link href="../assets/images/logo/logo-escuela.jpg" rel="icon">
+    <link href="../assets/images/logo/favicon.svg" rel="icon" type="image/svg+xml">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -415,10 +415,10 @@ if (isset($_GET['logout']) && $_GET['logout'] == '1') {
             <!-- Lado izquierdo con información de la escuela -->
             <div class="col-lg-5 login-left">
                 <div class="logo-container">
-                    <img src="../assets/images/logo/logo-escuela.jpg" alt="EESO 225 La San Martín">
+                    <img src="../assets/images/logo/logo-escuela-icono.svg" alt="EESO 225 San Martín">
                     <div class="school-name">
                         <h1>EESO 225</h1>
-                        <h2>"La San Martín"</h2>
+                        <h2>San Martín</h2>
                     </div>
                 </div>
                 

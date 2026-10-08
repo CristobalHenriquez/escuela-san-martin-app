@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Secretaría | EESO 225</title>
-    <link rel="icon" href="../assets/images/logo/logo-escuela.jpg" type="image/jpeg">
+    <link rel="icon" href="../assets/images/logo/favicon.svg" type="image/svg+xml">
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="access-shell">
         <section class="access-card" aria-labelledby="access-title">
             <div class="access-brand">
-                <img src="../assets/images/logo/logo-escuela.jpg" alt="Identidad de EESO 225 La San Martín">
+                <img src="../assets/images/logo/logo-escuela-icono.svg" alt="Identidad de EESO 225 San Martín">
                 <div>
                     <span class="eyebrow">Área institucional</span>
                     <h1 id="access-title">Secretaría</h1>

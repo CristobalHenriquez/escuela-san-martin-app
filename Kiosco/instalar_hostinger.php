@@ -26,7 +26,7 @@ function ejecutarArchivoSql(PDO $db, string $ruta): void
 }
 
 try {
-    echo "<h2>Instalando POS La San Martin 5C en MySQL</h2>";
+    echo "<h2>Instalando POS San Martín 5C en MySQL</h2>";
 
     $db->beginTransaction();
     ejecutarArchivoSql($db, __DIR__ . '/docker/mysql/init/01_schema.sql');

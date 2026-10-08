@@ -1,7 +1,7 @@
 <?php
 /**
  * Sección de Logros - Frontend
- * EESO 225 "La San Martín"
+ * EESO 225 San Martín
  */
 
 // Obtener logros estudiantiles destacados

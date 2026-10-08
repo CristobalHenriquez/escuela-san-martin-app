@@ -1,6 +1,6 @@
 <?php
 /**
- * Página de Noticias - EESO 225 "La San Martín"
+ * Página de Noticias - EESO 225 San Martín
  * 
  * Muestra un listado paginado de todas las noticias visibles.
  */

@@ -1,6 +1,6 @@
 <?php
-// Dashboard principal del admin - EESO 225 "La San Martín"
-$admin_page_title = 'Panel de Administración | EESO 225 "La San Martín"';
+// Dashboard principal del admin - EESO 225 San Martín
+$admin_page_title = 'Panel de Administración | EESO 225 San Martín';
 $admin_page_description = 'Panel principal de administración del sitio web escolar';
 
 // Iniciar sesión si no está iniciada

@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador para subir imágenes desde TinyMCE - EESO 225 "La San Martín"
+ * Controlador para subir imágenes desde TinyMCE - EESO 225 San Martín
  * Maneja la subida de imágenes insertadas en el editor de texto
  */
 

@@ -117,7 +117,7 @@ $materias = $materiasStmt->fetch_all(MYSQLI_ASSOC);
                             <i class="bi bi-people-fill text-primary me-3 mt-1" style="font-size: 1.5rem; color: var(--color-violeta) !important;"></i>
                             <div>
                                 <p class="mb-0" style="text-align: justify; line-height: 1.6; color: #444;">
-                                    Nuestro equipo docente está conformado por profesionales comprometidos con la enseñanza y el acompañamiento pedagógico. A través de su experiencia y dedicación, garantizan una educación de calidad, promoviendo el aprendizaje significativo y el crecimiento personal de cada estudiante en la E.E.S.O. Nº 225 "La San Martín".
+                                    Nuestro equipo docente está conformado por profesionales comprometidos con la enseñanza y el acompañamiento pedagógico. A través de su experiencia y dedicación, garantizan una educación de calidad, promoviendo el aprendizaje significativo y el crecimiento personal de cada estudiante en la E.E.S.O. Nº 225 General José de San Martín.
                                 </p>
                             </div>
                         </div>

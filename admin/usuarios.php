@@ -1,6 +1,6 @@
 <?php
-// Gestión de Usuarios Administradores - EESO 225 "La San Martín"
-$admin_page_title = 'Gestión de Usuarios | EESO 225 "La San Martín"';
+// Gestión de Usuarios Administradores - EESO 225 San Martín
+$admin_page_title = 'Gestión de Usuarios | EESO 225 San Martín';
 $admin_page_description = 'Gestión de usuarios administradores del panel';
 
 // Iniciar sesión si no está iniciada

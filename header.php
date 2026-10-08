@@ -20,7 +20,8 @@ $page_description = $page_description ?? '';
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" href="assets/images/logo/logo-escuela.jpg" type="image/jpeg">
+    <link rel="icon" href="assets/images/logo/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="assets/images/logo/apple-touch-icon.png">
 
     <!-- Vendor CSS (local) -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -37,8 +38,7 @@ $page_description = $page_description ?? '';
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="assets/images/logo/logo-escuela.jpg" alt="Logo" style="height:48px; margin-right:10px;">
-            <span class="fw-bold"><?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?></span>
+            <img src="assets/images/logo/logo-escuela.svg" alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" style="height:64px;">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>

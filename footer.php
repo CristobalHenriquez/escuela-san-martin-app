@@ -11,7 +11,7 @@
                 <div class="row mb-4">
                     <div class="col-12 text-center">
                         <div class="logo-section">
-                            <img src="assets/images/escuela_footer.png" 
+                            <img src="assets/images/logo/logo-escuela.svg" 
                                  alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" 
                                  class="img-fluid"
                                  style="max-width: 280px; height: auto; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); transition: all 0.3s ease; filter: brightness(1.05);">

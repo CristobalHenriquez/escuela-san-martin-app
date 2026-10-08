@@ -91,7 +91,7 @@ if ($phpspreadsheet_ok) {
     $row = 1;
     
     // Título principal
-    $sheet->setCellValue('A'.$row, 'POS La San Martin 5°C');
+    $sheet->setCellValue('A'.$row, 'POS San Martín 5°C');
     $sheet->mergeCells('A'.$row.':F'.$row);
     $sheet->getStyle('A'.$row)->getFont()->setBold(true)->setSize(16);
     $sheet->getStyle('A'.$row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -219,7 +219,7 @@ if ($phpspreadsheet_ok) {
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment;filename="reporte_turno_'.$turno['id'].'.csv"');
 $out = fopen('php://output', 'w');
-fputcsv($out, ['POS La San Martin 5°C']);
+fputcsv($out, ['POS San Martín 5°C']);
 fputcsv($out, ['Reporte de Turno #'.$turno['id']]);
 fputcsv($out, []);
 fputcsv($out, ['Apertura', date('d/m/Y H:i', strtotime($turno['fecha_apertura']))]);

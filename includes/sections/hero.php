@@ -1,7 +1,7 @@
 <?php
 /**
  * Sección Hero (Banner Principal) - Frontend
- * EESO 225 "La San Martín"
+ * EESO 225 San Martín
  */
 ?>
 
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="col-lg-5 order-1 order-lg-2 d-flex justify-content-center align-items-center">
-                <img src="assets/images/hero_escuela.jpeg" class="img-fluid" alt="EESO 225 La San Martín"
+                <img src="assets/images/hero_escuela.jpeg" class="img-fluid" alt="EESO 225 San Martín"
                     data-aos="zoom-out" data-aos-delay="100"
                     style="max-height: 400px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             </div>

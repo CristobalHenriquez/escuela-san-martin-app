@@ -31,7 +31,7 @@ $posts = $stmt->fetchAll();
                             <i class="bi bi-newspaper text-primary me-3 mt-1" style="font-size: 1.5rem; color: var(--color-violeta) !important;"></i>
                             <div>
                                 <p class="mb-0" style="text-align: justify; line-height: 1.6; color: #444;">
-                                    En esta sección podrás encontrar las últimas novedades, proyectos y eventos que se desarrollan en la E.E.S.O. Nº 225 "La San Martín". Es un espacio para mantenerte al día con las actividades de la comunidad educativa y conocer los logros y avances de nuestra institución.
+                                    En esta sección podrás encontrar las últimas novedades, proyectos y eventos que se desarrollan en la E.E.S.O. Nº 225 General José de San Martín. Es un espacio para mantenerte al día con las actividades de la comunidad educativa y conocer los logros y avances de nuestra institución.
                                 </p>
                             </div>
                         </div>

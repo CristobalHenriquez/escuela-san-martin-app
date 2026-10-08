@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión | POS La San Martin 5°C</title>
+    <title>Iniciar sesión | POS San Martín 5°C</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     .login-logo img {
-        width: 120px;
+        width: 200px;
         height: auto;
         object-fit: contain;
         margin-bottom: 0.7rem;
@@ -192,10 +192,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-outer">
         <div class="login-container">
             <div class="login-logo">
-                <img src="img/lsm.jpeg" alt="Logo Escuela">
+                <img src="img/logo-escuela.png" alt="EESO 225 San Martín">
                 <i class="fas fa-store"></i>
             </div>
-            <div class="login-title">POS La San Martin 5°C</div>
+            <div class="login-title">POS San Martín 5°C</div>
             <div class="login-subtitle">Ingresa con tu usuario para abrir turno y registrar ventas.</div>
             <?php if ($error): ?>
             <div class="alert alert-danger error-msg py-2 px-3" role="alert" aria-live="polite">

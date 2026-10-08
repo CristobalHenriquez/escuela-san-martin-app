@@ -56,7 +56,7 @@ if ($phpspreadsheet_ok) {
     $row = 1;
     
     // Título principal
-    $sheet->setCellValue('A'.$row, 'POS La San Martin 5°C');
+    $sheet->setCellValue('A'.$row, 'POS San Martín 5°C');
     $sheet->mergeCells('A'.$row.':F'.$row);
     $sheet->getStyle('A'.$row)->getFont()->setBold(true)->setSize(16);
     $sheet->getStyle('A'.$row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -169,7 +169,7 @@ header('Content-Type: text/csv');
 header('Content-Disposition: attachment;filename="inventario_'.date('Y-m-d_H-i-s').'.csv"');
 $out = fopen('php://output', 'w');
 
-fputcsv($out, ['POS La San Martin 5°C']);
+fputcsv($out, ['POS San Martín 5°C']);
 fputcsv($out, ['Inventario de Productos']);
 fputcsv($out, ['Generado el:', date('d/m/Y H:i:s')]);
 fputcsv($out, []);

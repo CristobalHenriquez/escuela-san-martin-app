@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuración del Admin - EESO 225 "La San Martín"
+ * Configuración del Admin - EESO 225 San Martín
  * Archivo de configuración específico para el panel de administración
  */
 

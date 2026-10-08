@@ -1,6 +1,6 @@
 <?php
 // Configuración de la página
-$admin_page_title = 'Gestión de Noticias | EESO 225 "La San Martín"';
+$admin_page_title = 'Gestión de Noticias | EESO 225 San Martín';
 $admin_page_description = 'Administra las noticias y comunicados escolares';
 
 // Iniciar sesión si no está iniciada

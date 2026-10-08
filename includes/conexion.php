@@ -1,6 +1,6 @@
 <?php
 /**
- * Archivo de Conexión - EESO 225 "La San Martín"
+ * Archivo de Conexión - EESO 225 San Martín
  * Archivo principal de conexión para el admin existente
  */
 

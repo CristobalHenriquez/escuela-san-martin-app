@@ -1,7 +1,7 @@
 <?php
 /**
  * Sección de Personal Docente - Frontend
- * EESO 225 "La San Martín"
+ * EESO 225 San Martín
  */
 
 // Obtener personal destacado desde la tabla correcta
@@ -107,7 +107,7 @@ if (!function_exists('truncarTexto')) {
                 <div class="personal-image-container">
                     <img src="assets/images/profesores.jpg" 
                          class="img-fluid rounded-3 shadow" 
-                         alt="Equipo Docente EESO 225 La San Martín"
+                         alt="Equipo Docente EESO 225 San Martín"
                          style="border-radius: 15px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;">
                 </div>
             </div>
@@ -168,7 +168,7 @@ if (!function_exists('truncarTexto')) {
                 <div class="personal-image-container">
                     <img src="assets/images/profesores.jpg" 
                          class="img-fluid rounded-3 shadow" 
-                         alt="Equipo Docente EESO 225 La San Martín"
+                         alt="Equipo Docente EESO 225 San Martín"
                          style="border-radius: 15px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;">
                 </div>
             </div>

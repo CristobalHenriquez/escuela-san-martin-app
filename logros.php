@@ -50,7 +50,7 @@ $logros = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
                             <i class="bi bi-trophy-fill text-primary me-3 mt-1" style="font-size: 1.5rem; color: var(--color-violeta) !important;"></i>
                             <div>
                                 <p class="mb-0" style="text-align: justify; line-height: 1.6; color: #444;">
-                                    Cada logro representa el esfuerzo, la dedicación y el talento de nuestros estudiantes. Estos reconocimientos son el resultado del trabajo conjunto entre docentes, familias y alumnos, reflejando la calidad educativa que caracteriza a la E.E.S.O. Nº 225 "La San Martín". Celebramos no solo los resultados, sino también el proceso de crecimiento y aprendizaje que los hace posibles.
+                                    Cada logro representa el esfuerzo, la dedicación y el talento de nuestros estudiantes. Estos reconocimientos son el resultado del trabajo conjunto entre docentes, familias y alumnos, reflejando la calidad educativa que caracteriza a la E.E.S.O. Nº 225 General José de San Martín. Celebramos no solo los resultados, sino también el proceso de crecimiento y aprendizaje que los hace posibles.
                                 </p>
                             </div>
                         </div>

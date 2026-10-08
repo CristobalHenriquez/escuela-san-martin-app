@@ -62,7 +62,7 @@ function enviarEmail($datos) {
             
             <div style='text-align: center; margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px;'>
                 <small style='color: #666;'>
-                    Mensaje recibido el " . date('d/m/Y H:i:s') . " desde la web de EESO 225 \"La San Martín\"
+                    Mensaje recibido el " . date('d/m/Y H:i:s') . " desde la web de EESO 225 San Martín
                 </small>
             </div>
         </div>

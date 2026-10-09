@@ -288,6 +288,11 @@ footer {
     border-top: 1px solid #eee;
 }
 
+/* Logo de la barra de navegacion */
+.navbar-logo {
+    height: 77px;
+}
+
 /* Responsive tweaks */
 @media (max-width: 767px) {
     #hero.hero .col-lg-5 img {
@@ -295,7 +300,7 @@ footer {
     }
 
     .navbar .navbar-brand img {
-        height: 52px
+        height: 62px
     }
 }
 

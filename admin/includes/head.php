@@ -212,7 +212,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="dashboard.php">
-                <img src="../assets/images/logo/logo-escuela-negativo.svg" alt="EESO 225 San Martín" style="height: 52px;">
+                <img src="../assets/images/logo/logo-escuela-negativo.svg" alt="EESO 225 San Martín" style="height: 62px;">
             </a>
 
             <!-- Menú de navegación -->

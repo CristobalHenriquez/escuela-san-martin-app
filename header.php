@@ -38,7 +38,7 @@ $page_description = $page_description ?? '';
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="assets/images/logo/logo-escuela.svg" alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" style="height:64px;">
+            <img src="assets/images/logo/logo-escuela.svg" alt="<?= htmlspecialchars(ESCUELA_NOMBRE_CORTO) ?>" class="navbar-logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
